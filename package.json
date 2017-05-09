@@ -20,6 +20,7 @@
     "hashifier": "^1.0.0",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-es-modules-rollup": "^0.1.0",
     "koa-route": "^3.2.0",
     "linkstate": "^1.0.1",
     "lodash": "^4.17.4",

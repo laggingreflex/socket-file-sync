@@ -7,7 +7,7 @@ const IO = require('socket.io');
 const ss = require('socket.io-stream');
 const http = require('http');
 const Koa = require('koa');
-const rollup = require('koa-rollup');
+const esModules = require('koa-es-modules-rollup');
 const bodyparser = require('koa-bodyparser');
 const route = require('koa-route');
 const secret = require('../utils/secret');
@@ -33,8 +33,7 @@ async function server(config) {
     ctx.status = 500;
   }));
 
-  // use rollup to process js file requests
-  app.use(rollup({
+  app.use(esModules({
     root: __dirname + '/client',
   }));
 
