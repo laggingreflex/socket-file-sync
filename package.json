@@ -1,0 +1,41 @@
+{
+  "name": "socket-file-sync",
+  "version": "0.0.0",
+  "description": "Sync files to server using socket.io",
+  "main": "index.js",
+  "bin": {
+    "socket-file-sync": "index.js",
+    "sfs": "index.js"
+  },
+  "repository": "laggingreflex/socket-file-sync",
+  "dependencies": {
+    "arrify": "^1.0.1",
+    "chokidar": "^1.7.0",
+    "configucius": "^0.4.1",
+    "debounce-queue": "^0.2.0",
+    "debug": "^2.6.6",
+    "enquire-simple": "^0.1.0",
+    "fetch-json-simple": "^0.1.0",
+    "fs-extra": "^3.0.1",
+    "hashifier": "^1.0.0",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-route": "^3.2.0",
+    "linkstate": "^1.0.1",
+    "lodash": "^4.17.4",
+    "minimatch": "^3.0.4",
+    "parse-gitignore": "^0.4.0",
+    "preact": "^8.1.0",
+    "preact-hyperscript": "^0.7.1",
+    "preact-hyperscript-h": "^0.1.1",
+    "preact-markdown": "^0.3.0",
+    "preact-render-to-string": "^3.6.1",
+    "proximify": "^0.2.0",
+    "set-state-loading": "^0.2.0",
+    "socket.io": "^2.0.1",
+    "socket.io-client": "^2.0.1",
+    "socket.io-stream": "^0.9.1",
+    "untildify": "^3.0.2",
+    "wildstring": "^1.0.9"
+  }
+}
