@@ -9,18 +9,21 @@ const watch = require('../utils/watch');
 module.exports = client;
 
 async function client(config) {
-  if (!config.server) {
+  let server = config.project.server || config.server;
+  if (!server) {
     await config.prompt('server', { require: true });
+    await config.save();
+    server = config.server;
   }
-  if (!config.server.match(/^http|^\/\//)) {
-    config.server = 'http://' + config.server;
-    console.warn('Server address must start with protocol. Using:', config.server)
+  if (!server.match(/^http|^\/\//)) {
+    server = 'http://' + config.server;
   }
-  if (!config.serverDir) {
-    await config.prompt('serverDir', { require: true });
+  if (!config.project.serverDir) {
+    await config.project.prompt('serverDir', { require: true });
+    await config.project.save();
   }
-  await config.save(['server', 'serverDir'], { configFile: '.socket-file-sync', saveLossy: true, all: true });
-  const server = config.server + ':' + config.port;
+  const serverDir = config.project.serverDir;
+  server = server + ':' + config.port;
   console.log('Connecting to', server + '...');
   const socket = proximify(io.connect(server));
   try {
@@ -41,7 +44,7 @@ async function client(config) {
       return;
     }
     console.log('Authenticated.');
-    socket.emit('serverDir', config.serverDir);
+    socket.emit('serverDir', serverDir);
   };
 
   const watcherPromise = watch(config.cwd, { cwd: config.cwd });
