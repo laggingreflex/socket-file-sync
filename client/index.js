@@ -40,7 +40,7 @@ async function client(config) {
       process.exit(2);
       return;
     }
-    console.log('Authenticated!');
+    console.log('Authenticated.');
     socket.emit('serverDir', config.serverDir);
   };
 

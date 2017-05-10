@@ -39,7 +39,7 @@ async function onConnection(socket, config) {
     return;
   }
   socket.emit('auth', { success: true });
-  console.log('Authenticated!');
+  console.log('Authenticated.');
 
   const serverDir = Path.normalize(untildify(await socket.onceAsync('serverDir')));
   console.log('Checking', serverDir + '...');
