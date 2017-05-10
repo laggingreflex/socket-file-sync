@@ -38,9 +38,9 @@ Note: Necessary options are prompted if not provided.
 
 Config is stored in two places:
 
-* `~/.socket-file-sync`: `secret`
+* `~/.socket-file-sync` stores: `secret`
 
-* `<current-dir>/.socket-file-sync` `server`, `serverDir`
+* `<current-dir>/.socket-file-sync` stores: `server`, `serverDir`
 
     You can also store `server` in home-dir config:
 
