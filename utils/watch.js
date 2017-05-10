@@ -29,6 +29,6 @@ async function watch(dir, opts) {
   watcher.on('add', initialAdd);
   await watcher.onceAsync('ready');
   watcher.removeListener('add', initialAdd);
-  console.log(initial.length + ' files found. Watching for changes...');
+  console.log(initial.length + ' files found.');
   return watcher;
 }

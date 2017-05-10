@@ -44,7 +44,11 @@ async function client(config) {
     socket.emit('serverDir', config.serverDir);
   };
 
-  await initialize();
+  const watcherPromise = watch(config.cwd, { cwd: config.cwd });
+  const initPromise = initialize();
+
+  const [watcher] = await Promise.all([watcherPromise, initPromise]);
+
   socket.on('disconnect', () => {
     console.warn('Disconnected. Waiting to reconnect...')
   });
@@ -53,8 +57,7 @@ async function client(config) {
     initialize();
   });
 
-  const watcher = await watch(config.cwd, { cwd: config.cwd });
-
+  console.log('Watching for changes...')
   watcher.on('change', debounce(files => files.map(async relative => {
     relative = relative.replace(/[\/\\]+/g, '/');
     const full = Path.join(config.cwd, relative);
