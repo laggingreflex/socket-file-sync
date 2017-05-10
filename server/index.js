@@ -60,12 +60,12 @@ async function onConnection(socket, config) {
     try {
       await stream.onceAsync('end');
       console.log('Received', relative);
-      await fs.remove(backup);
     } catch (error) {
       console.error('Failed to receive:', relative);
       console.log('Restoring original...');
       await fs.copy(backup, path);
     }
+    await fs.remove(backup);
     clearTimeout(timeout);
   });
 }
