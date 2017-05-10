@@ -19,6 +19,7 @@
     "minimatch": "^3.0.4",
     "parse-gitignore": "^0.4.0",
     "proximify": "^0.2.0",
+    "shortid": "^2.2.8",
     "socket.io": "^2.0.1",
     "socket.io-client": "^2.0.1",
     "socket.io-stream": "^0.9.1",
