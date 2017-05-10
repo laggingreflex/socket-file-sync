@@ -50,7 +50,7 @@ const project = exports.project = main.project = new Config({
       type: 'string',
       save: true,
       prompt: 'Server project dir',
-    }
+    },
     saveProject: {
       type: 'boolean',
     },
