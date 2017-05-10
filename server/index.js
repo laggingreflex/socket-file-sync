@@ -52,7 +52,8 @@ async function onConnection(socket, config) {
     const path = Path.normalize(Path.join(serverDir, relative));
     await fs.ensureFile(path);
     const stream = proximify(ss.createStream());
-    ss(socket).emit('file', stream);
+    // ss(socket).emit('file', stream);
+    ss(socket).emit('file:' + relative, stream);
     stream.pipe(fs.createWriteStream(path));
     // stream.pipe(process.stdout);
     await stream.onceAsync('end');
