@@ -48,7 +48,7 @@ async function onConnection(socket, config) {
   console.log('Waiting to receive files...');
 
   socket.on('sending-file', async relative => {
-    console.log('Receiving', relative + '...');
+    // console.log('Receiving', relative + '...');
     const path = Path.normalize(Path.join(serverDir, relative));
     const backup = path + '.sfs-bkp';
     await fs.ensureFile(path);
