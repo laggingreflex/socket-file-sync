@@ -1,5 +1,5 @@
 {
-  "name ": "socket-file-sync",
+  "name": "socket-file-sync",
   "version": "0.1.1",
   "description": "Sync files to server using socket.io",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "repository": "laggingreflex/socket-file-sync",
   "dependencies": {
     "chokidar": "^1.7.0",
-    "configucius": "^0.4.1",
+    "configucius": "^0.7.0",
     "debounce-queue": "^0.2.0",
     "debug": "^2.6.6",
     "enquire-simple": "^0.1.0",

@@ -19,21 +19,39 @@ async function client(config) {
   if (!config.serverDir) {
     await config.prompt('serverDir', { require: true });
   }
+  await config.save(['server', 'serverDir'], { configFile: '.socket-file-sync', saveLossy: true, all: true });
   const server = config.server + ':' + config.port;
-  console.log('Connecting to', server);
+  console.log('Connecting to', server + '...');
   const socket = proximify(io.connect(server));
-  console.log('Authenticating...');
-  socket.emit('auth', { secret: config.secret });
-  const { error, success } = await socket.onceAsync('auth');
-  if (!success) {
-    console.error('Could not authenticate. Make sure you have the same secret as the server');
-    console.error(error);
-    process.exit(2);
-    return;
+  try {
+    await Promise.race(['connect', 'error'].map(_ => socket.onceAsync(_)));
+    console.log('Connected.');
+  } catch (error) {
+    console.error('Failed to connect to the socket server.', error.message);
+    process.exit(1);
   }
-  console.log('Authenticated!');
 
-  socket.emit('serverDir', config.serverDir);
+  const initialize = async() => {
+    console.log('Authenticating...');
+    socket.emit('auth', config.secret);
+    const { error, success } = await socket.onceAsync('auth');
+    if (!success) {
+      console.error('Failed to authenticate.', error);
+      process.exit(2);
+      return;
+    }
+    console.log('Authenticated!');
+    socket.emit('serverDir', config.serverDir);
+  };
+
+  await initialize();
+  socket.on('disconnect', () => {
+    console.warn('Disconnected. Waiting to reconnect...')
+  });
+  socket.on('reconnect', () => {
+    console.log('Reconnecting...')
+    initialize();
+  });
 
   const watcher = await watch(config.cwd, { cwd: config.cwd });
 
@@ -46,5 +64,10 @@ async function client(config) {
     console.log('Sent', relative);
   }), 1000));
 
-  // process.exit(0);
+  try {
+    await socket.onceAsync('error');
+  } catch (error) {
+    console.error('Socket errored:', error.message);
+    process.exit(3);
+  }
 }

@@ -6,10 +6,7 @@ exports.verify = verify;
 
 async function get() {
   if (config.secret) return config.secret;
-  await config.prompt('secret');
-  if (!config.secret) {
-    throw new Error('Must enter a secret');
-  }
+  await config.prompt('secret', { required: true });
   config.secret = await hash.hash(config.secret);
   await config.save();
   return config.secret;

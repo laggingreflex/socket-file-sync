@@ -4,8 +4,6 @@ const proximify = require('proximify');
 const _ = require('lodash');
 const untildify = require('untildify');
 const parseGitignore = require('parse-gitignore');
-const minimatch = require('minimatch');
-const wildstring = require('wildstring');
 
 module.exports = watch;
 
