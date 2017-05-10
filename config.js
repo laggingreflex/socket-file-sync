@@ -1,9 +1,12 @@
-const config = module.exports = new(require('configucius').default)({
+const Config = require('configucius').default;
+
+const main = module.exports = new Config({
   configFile: '~/.socket-file-sync',
   options: {
     secret: {
       type: 'string',
       save: true,
+      prompt: true,
     },
     port: {
       type: 'number',
@@ -11,10 +14,10 @@ const config = module.exports = new(require('configucius').default)({
       save: true,
     },
     server: {
+      alias: 'mainServer',
       type: 'string',
-    },
-    serverDir: {
-      type: 'string',
+      save: true,
+      prompt: 'Main server',
     },
     cwd: {
       type: 'string',
@@ -23,6 +26,10 @@ const config = module.exports = new(require('configucius').default)({
     mode: {
       type: 'string',
     },
+    editConfig: {
+      alias: 'e',
+      type: 'boolean',
+    },
     help: {
       alias: ['h', '?'],
       type: 'boolean',
@@ -30,15 +37,22 @@ const config = module.exports = new(require('configucius').default)({
   },
 });
 
-if (config.help) {
-  console.log('Todo, just see this for now:', require('fs').readFileSync(__filename, 'utf8'));
-  process.exit(0);
-}
-
-const mode = config.mode || config._.find(_ => _ === 'server' || 'client' === _);
-if (!mode || (mode !== 'server' && 'client' !== mode)) {
-  console.error('Need a mode to run in: [server|client]');
-  process.exit(1);
-} else {
-  config.mode = mode;
-}
+const project = exports.project = main.project = new Config({
+  configFile: main.cwd + '/.socket-file-sync',
+  options: {
+    server: {
+      alias: 'projectServer',
+      type: 'string',
+      save: true,
+      prompt: 'Server for this project',
+    },
+    serverDir: {
+      type: 'string',
+      save: true,
+      prompt: 'Server project dir',
+    }
+    saveProject: {
+      type: 'boolean',
+    },
+  },
+});
