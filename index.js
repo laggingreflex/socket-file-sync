@@ -5,9 +5,9 @@ const secret = require('./utils/secret');
 
 (async() => {
 
-  await config.readConfigFile('.socket-file-sync', { silent: true });
-
   await secret.get();
+
+  await config.readConfigFile('.socket-file-sync', { silent: true });
 
   if (config.mode === 'server') {
     require('./server')(config);
