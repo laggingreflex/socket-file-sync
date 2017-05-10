@@ -33,7 +33,7 @@ const secret = require('./utils/secret');
 
   await config.readConfigFile('.socket-file-sync', { silent: true });
 
-  if (config.mode === 'server') {
+  if (mode.charAt(0) === 's') {
     require('./server')(config);
   } else {
     require('./client')(config);
