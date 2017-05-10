@@ -75,6 +75,36 @@ async function client(config) {
     }
   }), 1000));
 
+  if (config.twoWay || config.project.twoWay) {
+    console.log('Checking two-way compatibility...');
+    socket.emit('twoWay')
+    if (!await socket.onceAsync('twoWay')) {
+      console.log('Server does not support two-way. Make sure to start server with --two-way ');
+    } else {
+      socket.on('sending-file', async relative => {
+        const timeout = setTimeout(() => console.log('Receiving', relative + '...'), 1000);
+        const path = Path.join(config.cwd, relative);
+        const backup = path + '.sfs-bkp';
+        await fs.ensureFile(path);
+        await fs.copy(path, backup);
+        const stream = proximify(ss.createStream());
+        ss(socket).emit('file:' + relative, stream);
+        stream.pipe(fs.createWriteStream(path));
+        // stream.pipe(process.stdout);
+        try {
+          await stream.onceAsync('end');
+          console.log('Received', relative);
+        } catch (error) {
+          console.error('Failed to receive:', relative);
+          console.log('Restoring original...');
+          await fs.copy(backup, path);
+        }
+        await fs.remove(backup);
+        clearTimeout(timeout);
+      });
+    }
+  }
+
   try {
     await socket.onceAsync('error');
   } catch (error) {

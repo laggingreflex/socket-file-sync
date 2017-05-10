@@ -26,6 +26,12 @@ const main = module.exports = new Config({
     mode: {
       type: 'string',
     },
+    twoWay: {
+      alias: 'twoway',
+      type: 'boolean',
+      save: true,
+      prompt: true,
+    },
     editConfig: {
       alias: 'e',
       type: 'boolean',
@@ -46,6 +52,12 @@ const project = exports.project = main.project = new Config({
       save: true,
       prompt: 'Server for this project',
     },
+    secret: {
+      alias: 'projectServerSecret',
+      type: 'string',
+      save: true,
+      prompt: config => config.server && "Secret for this project's server",
+    },
     serverDir: {
       type: 'string',
       save: true,
@@ -53,6 +65,13 @@ const project = exports.project = main.project = new Config({
     },
     saveProject: {
       type: 'boolean',
+      default: true,
+    },
+    twoWay: {
+      alias: 'twoway',
+      type: 'boolean',
+      save: true,
+      prompt: true,
     },
   },
 });

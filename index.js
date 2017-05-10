@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const config = require('./config');
-const secret = require('./utils/secret');
 
 (async() => {
 
@@ -29,9 +28,10 @@ const secret = require('./utils/secret');
     config.mode = mode;
   }
 
-  await secret.get();
-
-  await config.readConfigFile('.socket-file-sync', { silent: true });
+  if (!config.project.secret && !config.secret) {
+    await config.prompt('secret', { required: true });
+  }
+  await config.save();
 
   if (mode.charAt(0) === 's') {
     require('./server')(config);
