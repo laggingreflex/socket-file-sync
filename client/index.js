@@ -51,6 +51,8 @@ async function client(config) {
   const initPromise = initialize();
 
   const [watcher] = await Promise.all([watcherPromise, initPromise]);
+  console.log('Initialized, waiting for ready signal...');
+  await socket.onceAsync('ready');
 
   socket.on('disconnect', () => {
     console.warn('Disconnected. Waiting to reconnect...')

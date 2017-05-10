@@ -76,7 +76,7 @@ async function onConnection(socket, config) {
       socket.emit('twoWay', false);
     });
   } else {
-    socket.once('twoWay', async () => {
+    socket.once('twoWay', async() => {
       socket.emit('twoWay', true);
       console.log('Initializing file watcher for two-way sync...')
       const watcher = await watch(serverDir, { cwd: serverDir });
@@ -100,4 +100,6 @@ async function onConnection(socket, config) {
       socket.on('reconnect', () => clearTimeout(fileWatcherCloseTimeout));
     });
   }
+
+  socket.emit('ready');
 }
