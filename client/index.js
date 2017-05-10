@@ -56,6 +56,7 @@ async function client(config) {
   const watcher = await watch(config.cwd, { cwd: config.cwd });
 
   watcher.on('change', debounce(files => files.map(async relative => {
+    relative = relative.replace(/[\/\\]+/g, '/');
     const full = Path.join(config.cwd, relative);
     socket.emit('sending-file', relative);
     const stream = await proximify(ss(socket)).onceAsync('file:' + relative);

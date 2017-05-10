@@ -49,7 +49,7 @@ async function onConnection(socket, config) {
 
   socket.on('sending-file', async relative => {
     const timeout = setTimeout(() => console.log('Receiving', relative + '...'), 1000);
-    const path = Path.normalize(Path.join(serverDir, relative));
+    const path = Path.join(serverDir, relative);
     const backup = path + '.sfs-bkp';
     await fs.ensureFile(path);
     await fs.copy(path, backup);
