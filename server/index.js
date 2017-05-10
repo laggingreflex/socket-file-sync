@@ -50,13 +50,21 @@ async function onConnection(socket, config) {
   socket.on('sending-file', async relative => {
     console.log('Receiving', relative + '...');
     const path = Path.normalize(Path.join(serverDir, relative));
+    const backup = path + '.sfs-bkp';
     await fs.ensureFile(path);
+    await fs.copy(path, backup);
     const stream = proximify(ss.createStream());
-    // ss(socket).emit('file', stream);
     ss(socket).emit('file:' + relative, stream);
     stream.pipe(fs.createWriteStream(path));
     // stream.pipe(process.stdout);
-    await stream.onceAsync('end');
-    console.log('Received', relative);
+    try {
+      await stream.onceAsync('end');
+      console.log('Received', relative);
+      await fs.remove(backup);
+    } catch (error) {
+      console.error('Failed to receive:', relative);
+      console.log('Restoring original...');
+      await fs.copy(backup, path);
+    }
   });
 }

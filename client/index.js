@@ -56,14 +56,16 @@ async function client(config) {
   const watcher = await watch(config.cwd, { cwd: config.cwd });
 
   watcher.on('change', debounce(files => files.map(async relative => {
-    // const id = shortid.generate();
     const full = Path.join(config.cwd, relative);
     socket.emit('sending-file', relative);
     const stream = await proximify(ss(socket)).onceAsync('file:' + relative);
-    // const stream = await proximify(ss(socket)).onceAsync('file');
     fs.createReadStream(full).pipe(stream);
-    await stream.onceAsync('end');
-    console.log('Sent', relative);
+    try {
+      await stream.onceAsync('end');
+      console.log('Sent', relative);
+    } catch (error) {
+      console.error('Failed to send', relative);
+    }
   }), 1000));
 
   try {
