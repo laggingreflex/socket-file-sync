@@ -10,7 +10,7 @@
   "repository": "laggingreflex/socket-file-sync",
   "dependencies": {
     "chokidar": "^1.7.0",
-    "configucius": "^0.10.0",
+    "configucius": "^0.11.0",
     "debounce-queue": "^0.2.0",
     "debug": "^2.6.6",
     "enquire-simple": "^0.1.0",
