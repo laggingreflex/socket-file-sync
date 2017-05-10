@@ -30,25 +30,45 @@ async function server(config) {
 }
 
 async function onConnection(socket, config) {
-  console.log('New socket connection.');
-  console.log('Waiting for authentication...');
-  const secret = await socket.onceAsync('auth');
-  if (secret !== config.secret) {
-    const error = 'Secret did not match';
-    socket.emit('auth', { error });
-    console.error('Authentication failed.', error);
-    return;
+  console.log('New connection');
+
+  let isAuthenticated, serverDir, watcher;
+
+  const emitError = error => {
+    socket.emit('error', error);
+    console.error(error);
   }
-  socket.emit('auth', { success: true });
-  console.log('Authenticated.');
 
-  const serverDir = Path.normalize(untildify(await socket.onceAsync('serverDir')));
-  console.log('Checking', serverDir + '...');
-  await fs.access(serverDir);
-  console.log('serverDir exists');
+  socket.on('auth', secret => {
+    if (secret === config.secret) {
+      isAuthenticated = true;
+      console.log('Authenticated');
+    } else {
+      const error = 'Secret did not match';
+      socket.emit('auth', { error });
+      console.error('Authentication failed.', error);
+    }
+  });
+  socket.on('serverDir', async _ => {
+    serverDir = Path.normalize(untildify(_.replace(/[\/\\]/g, '/')))
+    try {
+      await fs.access(serverDir);
+      console.log('Syncing to:', serverDir);
+      socket.emit('serverDir', { success: true });
+    } catch (error) {
+      console.error('Cannot sync to:', serverDir, error.message)
+      serverDir = null;
+      socket.emit('serverDir', { error: error.message });
+    }
+  });
 
-  console.log('Waiting to receive files...');
   socket.on('sending-file', async relative => {
+    if (!isAuthenticated) {
+      return emitError('Unauthorized');
+    }
+    if (!serverDir) {
+      return emitError('serverDir does not exists');
+    }
     const timeout = setTimeout(() => console.log('Receiving', relative + '...'), 1000);
     const path = Path.join(serverDir, relative);
     const backup = path + '.sfs-bkp';
@@ -70,36 +90,40 @@ async function onConnection(socket, config) {
     clearTimeout(timeout);
   });
 
-  if (!config.twoWay) {
-    socket.on('twoWay', () => {
+  socket.on('twoWay', async() => {
+    if (!config.twoWay) {
       console.warn('Rejecting client two-way request');
       socket.emit('twoWay', false);
-    });
-  } else {
-    socket.once('twoWay', async() => {
+      return;
+    }
+    if (watcher) {
+      console.log('Two way already initialized')
       socket.emit('twoWay', true);
-      console.log('Initializing file watcher for two-way sync...')
-      const watcher = await watch(serverDir, { cwd: serverDir });
-      console.log('Watching for changes...');
-      watcher.on('change', debounce(files => files.map(async relative => {
-        relative = relative.replace(/[\/\\]+/g, '/');
-        const full = Path.join(serverDir, relative);
-        socket.emit('sending-file', relative);
-        const stream = await proximify(ss(socket)).onceAsync('file:' + relative);
-        fs.createReadStream(full).pipe(stream);
-        try {
-          await stream.onceAsync('end');
-          console.log('Sent', relative);
-        } catch (error) {
-          console.error('Failed to send', relative);
-        }
-      }), 1000));
+      return;
+    }
 
-      let fileWatcherCloseTimeout
-      socket.on('disconnect', () => fileWatcherCloseTimeout = setTimeout(() => watcher.close(), 30000));
-      socket.on('reconnect', () => clearTimeout(fileWatcherCloseTimeout));
-    });
-  }
+    socket.emit('twoWay', true);
+    console.log('Initializing file watcher for two-way sync...')
+    watcher = await watch(serverDir, { cwd: serverDir });
+    console.log('Watching for changes...');
+    watcher.on('change', debounce(files => files.map(async relative => {
+      relative = relative.replace(/[\/\\]+/g, '/');
+      const full = Path.join(serverDir, relative);
+      socket.emit('sending-file', relative);
+      const stream = await proximify(ss(socket)).onceAsync('file:' + relative);
+      fs.createReadStream(full).pipe(stream);
+      try {
+        await stream.onceAsync('end');
+        console.log('Sent', relative);
+      } catch (error) {
+        console.error('Failed to send', relative);
+      }
+    }), 1000));
 
-  socket.emit('ready');
+    let fileWatcherCloseTimeout
+    socket.on('disconnect', () => fileWatcherCloseTimeout = setTimeout(() => watcher.close(), 30000));
+    socket.on('reconnect', () => clearTimeout(fileWatcherCloseTimeout));
+
+  });
+
 }
