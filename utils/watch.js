@@ -23,7 +23,7 @@ async function watch(dir, opts) {
     initial.push(path);
     const len = initial.length;
     if (len >= 200 && len % 100 === 0) {
-      console.warn(len + ' files added', Path.relative(cwd, path));
+      console.warn(len + ' files added', Path.relative(opts.cwd, path));
     }
   };
   watcher.on('add', initialAdd);

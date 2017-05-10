@@ -5,7 +5,6 @@ const IO = require('socket.io');
 const ss = require('socket.io-stream');
 const proximify = require('proximify');
 const untildify = require('untildify');
-const secret = require('../utils/secret');
 const debounce = require('debounce-queue');
 const watch = require('../utils/watch');
 const debug = require('debug')('socket-file-sync');
@@ -84,7 +83,7 @@ async function onConnection(socket, config) {
       console.log('Watching for changes...');
       watcher.on('change', debounce(files => files.map(async relative => {
         relative = relative.replace(/[\/\\]+/g, '/');
-        const full = Path.join(config.cwd, relative);
+        const full = Path.join(serverDir, relative);
         socket.emit('sending-file', relative);
         const stream = await proximify(ss(socket)).onceAsync('file:' + relative);
         fs.createReadStream(full).pipe(stream);
