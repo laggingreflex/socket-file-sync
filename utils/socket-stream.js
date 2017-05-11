@@ -7,7 +7,7 @@ const sss = require('simple-socket-stream')
 
 module.exports = (socket, root, pre) => {
   const initiate = sss(socket,
-    tryCatch(socket, (stream, { relative }) => {
+    tryCatch(socket, (stream, { relative } = {}) => {
       root = parseRootDir(root)
       const full = Path.join(root, relative);
       if (pre) pre('send', { relative, full });
@@ -22,7 +22,7 @@ module.exports = (socket, root, pre) => {
         socket.emit('send-file:response', error.message, { relative });
       });
     }),
-    tryCatch(socket, (stream, { relative }) => {
+    tryCatch(socket, (stream, { relative } = {}) => {
       root = parseRootDir(root);
       const full = Path.join(root, relative);
       if (pre) pre('receive', { relative, full });
@@ -44,14 +44,14 @@ module.exports = (socket, root, pre) => {
     })
   );
 
-  socket.on('send-file:response', (error, { relative }) => error
-    ? console.error('Sending failed by server:', relative, error)
-    : console.log('Sent by server successfully:', relative));
-  socket.on('receive-file:response', (error, { relative }) => error
-    ? console.error('Send failed on server:', relative, error)
+  socket.on('send-file:response', (error, { relative } = {}) => error
+    ? console.error('Sending failed by remote:', relative, error)
+    : console.log('Sent by remote successfully:', relative));
+  socket.on('receive-file:response', (error, { relative } = {}) => error
+    ? console.error('Send failed on remote:', relative, error)
     : console.log('Sent successfully:', relative));
 
-  return ({ relative }) => {
+  return ({ relative } = {}) => {
     relative = relative.replace(/[\/\\]+/g, '/');
     return initiate({ relative });
   }

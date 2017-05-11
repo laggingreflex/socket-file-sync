@@ -52,13 +52,13 @@ async function client(config) {
   watcher.on('add', debounce(files => files.map(relative => send({ relative })), 1000));
   if (config.deleteOnRemote) {
     watcher.on('unlink', debounce(files => files.map(relative => socket.emit('delete-file', { relative })), 1000));
-    socket.on('delete-file:response', (error, { relative }) => error
+    socket.on('delete-file:response', (error, { relative } = {}) => error
       ? console.error('Deletion failed', relative, error)
       : console.log('Deleted', relative)
     );
   }
   if (config.deleteByRemote) {
-    socket.on('delete-file', ({ relative }) => fs.remove(Path.join(config.cwd, relative))
+    socket.on('delete-file', ({ relative } = {}) => fs.remove(Path.join(config.cwd, relative))
       .then(() => socket.emit('delete-file:response', null, { relative }))
       .catch(error => socket.emit('delete-file:response', error.message, { relative }))
     );
