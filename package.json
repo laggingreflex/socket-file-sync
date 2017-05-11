@@ -24,6 +24,7 @@
     "socket.io": "^2.0.1",
     "socket.io-client": "^2.0.1",
     "socket.io-stream": "^0.9.1",
+    "stream-equal": "^1.0.0",
     "untildify": "^3.0.2"
   }
 }

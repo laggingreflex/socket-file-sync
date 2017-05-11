@@ -4,27 +4,38 @@ const fs = require('fs-extra');
 const Path = require('path');
 const shortid = require('shortid');
 const sss = require('simple-socket-stream')
+const streamEqual = require('stream-equal');
+
+const filesInTransit = {};
 
 module.exports = (socket, root, pre) => {
   const initiate = sss(socket,
     tryCatch(socket, (stream, { relative } = {}) => {
       root = parseRootDir(root)
       const full = Path.join(root, relative);
+      if (filesInTransit[full]) {
+        throw new Error('File already in transit');
+      }
+      filesInTransit[full] = true;
       if (pre) pre('send', { relative, full });
       console.log('Sending:', relative);
       fs.createReadStream(full).pipe(stream);
       stream.once('end', () => {
         console.log('Sent', relative);
-        socket.emit('send-file:response', null, { relative });
+        socket.emit('send-file:response', null, { relative, full });
       });
       stream.once('error', (error) => {
         console.log('Sending failed:', relative, error.message);
-        socket.emit('send-file:response', error.message, { relative });
+        socket.emit('send-file:response', error.message, { relative, full });
       });
     }),
     tryCatch(socket, (stream, { relative } = {}) => {
       root = parseRootDir(root);
       const full = Path.join(root, relative);
+      if (filesInTransit[full]) {
+        throw new Error('File already in transit');
+      }
+      filesInTransit[full] = true;
       if (pre) pre('receive', { relative, full });
       const tmp = Path.join(os.tmpdir(), shortid.generate());
       const bkp = Path.join(os.tmpdir(), shortid.generate());
@@ -33,12 +44,26 @@ module.exports = (socket, root, pre) => {
       console.log('Writing to temporary path:', tmp);
       stream.pipe(fs.createWriteStream(tmp));
       stream.once('end', async() => {
+        const throwError = e => {
+          console.error(e);
+          socket.emit('receive-file:response', e, { relative, full });
+        }
         console.log('Received', relative);
         try {
           await bkpCopyPromise;
         } catch (error) {
           console.error('Backup failed', error.message, '\nContinuing anyway');
         }
+
+        if (await streamEqual(
+            fs.createReadStream(full),
+            fs.createReadStream(tmp)
+          )) {
+          console.warn('Skipping copying', full);
+          throwError('Same contents');
+          return;
+        }
+
         try {
           await fs.remove(full)
         } catch (error) {
@@ -53,21 +78,21 @@ module.exports = (socket, root, pre) => {
           const err = 'Failed to rename new file to original. ' + error.message + '\nContinuing to replace by moving';
           console.error(err);
           socket.emit('receive-file:response', err, { relative, full });
-        }
-        try {
-          await fs.move(tmp, full);
-        } catch (error) {
-          const err = 'Failed to move new file to original. ' + error.message + '\nContinuing to replace by copying';
-          console.error(err);
-          socket.emit('receive-file:response', err, { relative, full });
-        }
-        try {
-          await fs.copy(tmp, full);
-        } catch (error) {
-          const err = 'Failed to copy new file to original. ' + error.message + '\nAboring';
-          console.error(err);
-          socket.emit('receive-file:response', err, { relative, full });
-          return;
+          try {
+            await fs.move(tmp, full);
+          } catch (error) {
+            const err = 'Failed to move new file to original. ' + error.message + '\nContinuing to replace by copying';
+            console.error(err);
+            socket.emit('receive-file:response', err, { relative, full });
+            try {
+              await fs.copy(tmp, full);
+            } catch (error) {
+              const err = 'Failed to copy new file to original. ' + error.message + '\nAboring';
+              console.error(err);
+              socket.emit('receive-file:response', err, { relative, full });
+              return;
+            }
+          }
         }
         try {
           await Promise.all([tmp, bkp].map(_ => fs.remove(_)));
@@ -81,7 +106,7 @@ module.exports = (socket, root, pre) => {
       stream.once('error', error => {
         console.log('Receiving failed:', relative, error.message);
         // socket.emit('stream-file:response', error.message, { relative });
-        socket.emit('receive-file:response', error.message, { relative });
+        socket.emit('receive-file:response', error.message, { relative, full });
       });
     })
   );
@@ -93,10 +118,26 @@ module.exports = (socket, root, pre) => {
     ? console.error('Send failed on remote:', relative, error)
     : console.log('Sent successfully:', relative));
 
-  return ({ relative } = {}) => {
+  socket.on('send-file:response', (error, { relative } = {}) => {
+    root = parseRootDir(root);
+    const full = Path.join(root, relative);
+    delete filesInTransit[full]
+  });
+  socket.on('receive-file:response', (error, { relative } = {}) => {
+    root = parseRootDir(root);
+    const full = Path.join(root, relative);
+    delete filesInTransit[full]
+  });
+
+  return tryCatch(socket, ({ relative } = {}) => {
     relative = relative.replace(/[\/\\]+/g, '/');
+    root = parseRootDir(root)
+    const full = Path.join(root, relative);
+    if (filesInTransit[full]) {
+      throw new Error('File already in transit');
+    }
     return initiate({ relative });
-  }
+  });
 
 }
 
@@ -115,7 +156,7 @@ function tryCatch(socket, fn) {
     try {
       return fn(...args)
     } catch (error) {
-      socket.emit('send-file:response', error.message);
+      socket.emit('send-file:response', error.message, args.slice(1));
       console.error(error);
     }
   }
