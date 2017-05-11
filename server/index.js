@@ -91,7 +91,8 @@ async function onConnection(socket, config) {
       return;
     }
     try {
-      watcher = await watch(serverDir, { cwd: serverDir });
+      watcher = watch(serverDir, { cwd: serverDir });
+      watcher = await watcher;
       console.log('Watching for changes...');
       watcher.on('change', debounce(files => files.map(relative => send({ relative })), 1000));
       watcher.on('add', debounce(files => files.map(relative => send({ relative })), 1000));
