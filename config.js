@@ -1,6 +1,6 @@
 const Config = require('configucius').default;
 
-const main = module.exports = new Config({
+const main = exports.main = new Config({
   configFile: '~/.socket-file-sync',
   options: {
     secret: {
@@ -28,6 +28,16 @@ const main = module.exports = new Config({
     },
     twoWay: {
       alias: 'twoway',
+      type: 'boolean',
+      save: true,
+      prompt: true,
+    },
+    deleteOnRemote: {
+      type: 'boolean',
+      save: true,
+      prompt: true,
+    },
+    deleteByRemote: {
       type: 'boolean',
       save: true,
       prompt: true,
@@ -73,5 +83,23 @@ const project = exports.project = main.project = new Config({
       save: true,
       prompt: true,
     },
+    deleteOnRemote: {
+      type: 'boolean',
+      save: true,
+      prompt: true,
+    },
+    deleteByRemote: {
+      type: 'boolean',
+      save: true,
+      prompt: true,
+    },
   },
+});
+
+module.exports = new Proxy(main, {
+  get: (main, key) => main[key] || project[key],
+});
+
+module.exports.project = new Proxy(project, {
+  get: (project, key) => project[key] || main[key],
 });

@@ -3,8 +3,9 @@ const os = require('os');
 const Path = require('path');
 const http = require('http');
 const IO = require('socket.io');
-const proximify = require('proximify');
+const socketWrap = require('../utils/socket');
 const untildify = require('untildify');
+const proximify = require('proximify');
 const debounce = require('debounce-queue');
 const watch = require('../utils/watch');
 const streamSocket = require('../utils/socket-stream');
@@ -27,7 +28,7 @@ async function server(config) {
     process.exit(1);
   }
 
-  io.on('connection', socket => onConnection(proximify(socket), config));
+  io.on('connection', socket => onConnection(socketWrap(socket), config));
 }
 
 async function onConnection(socket, config) {
@@ -77,7 +78,7 @@ async function onConnection(socket, config) {
   });
 
   socket.on('enable-two-way', async() => {
-    if (!(config.twoWay || config.project.twoWay)) {
+    if (!config.project.twoWay) {
       socket.emit('enable-two-way:response', 'twoWay not enabled by server');
       return;
     }
@@ -93,12 +94,34 @@ async function onConnection(socket, config) {
       watcher = await watch(serverDir, { cwd: serverDir });
       console.log('Watching for changes...');
       watcher.on('change', debounce(files => files.map(relative => send({ relative })), 1000));
+      watcher.on('add', debounce(files => files.map(relative => send({ relative })), 1000));
+      if (config.project.deleteOnRemote) {
+        watcher.on('unlink', debounce(files => files.map(relative => {
+          console.log('Deleting', relative);
+          socket.emit('delete-file', { relative });
+        }), 1000));
+      }
       socket.emit('enable-two-way:response', null, { success: true });
     } catch (error) {
       console.error('Watched failed:', error.message);
       socket.emit('enable-two-way:response', error.message);
     }
   });
+
+  socket.on('delete-file', async({ relative } = {}) => {
+    if (!config.project.deleteByRemote) {
+      throw new Error('delete-by-remote not enabled')
+    }
+    if (!serverDir) {
+      throw new Error('server-dir not sent or does not exist');
+    }
+    console.log('Deleting file', relative);
+    await fs.remove(Path.join(serverDir, relative));
+    socket.emit('delete-file:response', null, { relative });
+  });
+  socket.on('delete-file:response', (error, { relative } = {}) => error
+    ? console.error('Failed to delete file on remote:', relative, error)
+    : console.log('Deleted file on remote', relative));
 
   socket.on('disconnect', () => {
     console.warn('Socket disconnected. Waiting re-connection...');
