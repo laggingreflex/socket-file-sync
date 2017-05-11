@@ -7,7 +7,7 @@ const proximify = require('proximify');
 const untildify = require('untildify');
 const debounce = require('debounce-queue');
 const watch = require('../utils/watch');
-const streamSocket = require('../utils/ss-simple');
+const streamSocket = require('../utils/socket-stream');
 const debug = require('debug')('socket-file-sync');
 
 module.exports = server;
@@ -33,7 +33,9 @@ async function server(config) {
 async function onConnection(socket, config) {
   console.log('New connection');
 
-  let isAuthenticated, serverDir, watcher;
+  let isAuthenticated,
+    serverDir,
+    watcher, fileWatcherCloseTimeout;
 
   const emitError = error => {
     socket.emit('error', error);
@@ -50,28 +52,67 @@ async function onConnection(socket, config) {
       console.error('Authentication failed.', error);
     }
   });
-  socket.on('serverDir', async _ => {
+
+  const send = streamSocket(socket, () => serverDir, () => {
+    if (!isAuthenticated) {
+      throw new Error('Unauthorized');
+    }
+    if (!serverDir) {
+      throw new Error('serverDir not sent or does not exist');
+    }
+  });
+
+  socket.on('server-dir', async _ => {
     serverDir = Path.normalize(untildify(_.replace(/[\/\\]/g, '/')))
     try {
       await fs.access(serverDir);
       console.log('Syncing to:', serverDir);
-      socket.emit('serverDir', { success: true });
+      socket.emit('server-dir:response', null, { serverDir });
     } catch (error) {
       console.error('Cannot sync to:', serverDir, error.message)
       serverDir = null;
-      socket.emit('serverDir', { error: error.message });
+      socket.emit('server-dir:response', error.message, { serverDir });
+      return;
     }
   });
 
-  const send = streamSocket(socket, () => serverDir);
+  socket.on('enable-two-way', async() => {
+    if (!(config.twoWay || config.project.twoWay)) {
+      socket.emit('enable-two-way:response', 'twoWay not enabled by server');
+      return;
+    }
+    if (!serverDir) {
+      socket.emit('enable-two-way:response', 'serverDir not sent or does not exist');
+      return;
+    }
+    if (watcher) {
+      socket.emit('enable-two-way:response', 'already enabled');
+      return;
+    }
+    try {
+      watcher = await watch(serverDir, { cwd: serverDir });
+      console.log('Watching for changes...');
+      watcher.on('change', debounce(files => files.map(relative => send({ relative })), 1000));
+      socket.emit('enable-two-way:response', null, { success: true });
+    } catch (error) {
+      console.error('Watched failed:', error.message);
+      socket.emit('enable-two-way:response', error.message);
+    }
+  });
 
-  if (config.twoWay && !watcher) {
-    watcher = await watch(serverDir, { cwd: serverDir });
-    console.log('Watching for changes...');
-    watcher.on('change', debounce(files => files.map(relative => send({ relative })), 1000));
-    let fileWatcherCloseTimeout
-    socket.on('disconnect', () => fileWatcherCloseTimeout = setTimeout(() => watcher.close(), 30000));
-    socket.on('reconnect', () => clearTimeout(fileWatcherCloseTimeout));
-  }
+  socket.on('disconnect', () => {
+    console.warn('Socket disconnected. Waiting re-connection...');
+    if (watcher) {
+      fileWatcherCloseTimeout = setTimeout(() => {
+        console.warn('Socket did not re-connect after 30s, closing file-watcher');
+        watcher.close();
+        watcher = null;
+      }, 30000);
+    }
+  });
+  socket.on('reconnect', () => {
+    console.log('Socket re-connected');
+    clearTimeout(fileWatcherCloseTimeout)
+  });
 
 }
