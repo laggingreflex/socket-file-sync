@@ -28,10 +28,21 @@ async function client(config) {
 
   const socket = socketWrap(io.connect(server));
 
-  socket.on('connect', () => console.log('Connected'));
+  const initialize = () => {
+    socket.emit('auth', config.secret);
+    socket.emit('server-dir', serverDir);
+  };
+
+  socket.on('connect', () => {
+    console.log('Connected. Initializing...');
+    initialize();
+  });
   socket.on('disconnect', () => console.warn('Disconnected. Waiting to reconnect...'));
   socket.on('error', error => console.error('Error:', error));
-  socket.on('reconnect', () => console.log('Reconnected'));
+  socket.on('reconnect', () => {
+    console.log('Reconnected. Re-initializing');
+    initialize();
+  });
 
   socket.on('auth:response', error => error
     ? console.error('Failed to authenticate.', error)
@@ -68,11 +79,6 @@ async function client(config) {
     ? console.error('Failed to delete file on remote:', relative, error)
     : console.log('Deleted file', relative));
 
-  console.log('Initializing...');
-
-  socket.emit('auth', config.secret);
-  socket.emit('server-dir', serverDir);
-
   socket.once('server-dir:response', error => {
     if (!error && config.project.twoWay) {
       console.log('Enabling two-way sync from server...');
@@ -86,4 +92,5 @@ async function client(config) {
       ? console.log('delete-by-remote enabled')
       : console.log('delete-by-remote not enabled'))
   );
+
 }
