@@ -27,13 +27,55 @@ module.exports = (socket, root, pre) => {
       const full = Path.join(root, relative);
       if (pre) pre('receive', { relative, full });
       const tmp = Path.join(os.tmpdir(), shortid.generate());
+      const bkp = Path.join(os.tmpdir(), shortid.generate());
+      const bkpCopyPromise = fs.copy(full, bkp);
       console.log('Receiving', relative);
       console.log('Writing to temporary path:', tmp);
       stream.pipe(fs.createWriteStream(tmp));
       stream.once('end', async() => {
         console.log('Received', relative);
-        // fs.rename(tmp, path);
-        // socket.emit('stream-file:response', null, { relative });
+        try {
+          await bkpCopyPromise;
+        } catch (error) {
+          console.error('Backup failed', error.message, '\nContinuing anyway');
+        }
+        try {
+          await fs.remove(full)
+        } catch (error) {
+          const err = 'Failed to remove original file. ' + error.message
+          console.error(err);
+          socket.emit('receive-file:response', err, { relative, full });
+          return;
+        }
+        try {
+          await fs.rename(tmp, full);
+        } catch (error) {
+          const err = 'Failed to rename new file to original. ' + error.message + '\nContinuing to replace by moving';
+          console.error(err);
+          socket.emit('receive-file:response', err, { relative, full });
+        }
+        try {
+          await fs.move(tmp, full);
+        } catch (error) {
+          const err = 'Failed to move new file to original. ' + error.message + '\nContinuing to replace by copying';
+          console.error(err);
+          socket.emit('receive-file:response', err, { relative, full });
+        }
+        try {
+          await fs.copy(tmp, full);
+        } catch (error) {
+          const err = 'Failed to copy new file to original. ' + error.message + '\nAboring';
+          console.error(err);
+          socket.emit('receive-file:response', err, { relative, full });
+          return;
+        }
+        try {
+          await Promise.all([tmp, bkp].map(_ => fs.remove(_)));
+        } catch (error) {
+          const err = 'Failed to remove backup or temporary file. ' + error.message;
+          console.error(err);
+          socket.emit('receive-file:response', err, { relative, full });
+        }
         socket.emit('receive-file:response', null, { relative });
       });
       stream.once('error', error => {
