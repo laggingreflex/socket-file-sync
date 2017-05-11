@@ -1,6 +1,6 @@
 {
   "name": "socket-file-sync",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Sync files to server using socket.io",
   "main": "index.js",
   "bin": {
