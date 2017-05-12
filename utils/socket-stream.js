@@ -6,17 +6,11 @@ const shortid = require('shortid');
 const sss = require('simple-socket-stream')
 const streamEqual = require('stream-equal');
 
-const filesInTransit = {};
-
 module.exports = (socket, root, pre) => {
   const initiate = sss(socket,
     tryCatch(socket, (stream, { relative } = {}) => {
       root = parseRootDir(root)
       const full = Path.join(root, relative);
-      if (filesInTransit[full]) {
-        throw new Error('File already in transit');
-      }
-      filesInTransit[full] = true;
       if (pre) pre('send', { relative, full });
       console.log('Sending:', relative);
       fs.createReadStream(full).pipe(stream);
@@ -32,10 +26,6 @@ module.exports = (socket, root, pre) => {
     tryCatch(socket, (stream, { relative } = {}) => {
       root = parseRootDir(root);
       const full = Path.join(root, relative);
-      if (filesInTransit[full]) {
-        throw new Error('File already in transit');
-      }
-      filesInTransit[full] = true;
       if (pre) pre('receive', { relative, full });
       const tmp = Path.join(os.tmpdir(), shortid.generate());
       const bkp = Path.join(os.tmpdir(), shortid.generate());
@@ -121,21 +111,16 @@ module.exports = (socket, root, pre) => {
   socket.on('send-file:response', (error, { relative } = {}) => {
     root = parseRootDir(root);
     const full = Path.join(root, relative);
-    delete filesInTransit[full]
   });
   socket.on('receive-file:response', (error, { relative } = {}) => {
     root = parseRootDir(root);
     const full = Path.join(root, relative);
-    delete filesInTransit[full]
   });
 
   return tryCatch(socket, ({ relative } = {}) => {
     relative = relative.replace(/[\/\\]+/g, '/');
     root = parseRootDir(root)
     const full = Path.join(root, relative);
-    if (filesInTransit[full]) {
-      throw new Error('File already in transit');
-    }
     return initiate({ relative });
   });
 

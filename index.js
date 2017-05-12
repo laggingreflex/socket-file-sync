@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 const config = require('./config');
+const cluster = require('./utils/cluster');
 
-(async() => {
+cluster(main);
+process.on('unhandledRejection', console.error);
 
+async function main() {
   if (config.help) {
     console.log('Todo, just see this for now:', require('fs').readFileSync(__filename, 'utf8'));
     process.exit(0);
@@ -38,7 +41,4 @@ const config = require('./config');
   } else {
     require('./client')(config);
   }
-
-})();
-
-process.on('unhandledRejection', console.error);
+}
