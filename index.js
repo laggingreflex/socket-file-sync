@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 const config = require('./config');
-const cluster = require('./utils/cluster');
+const cluster = require('cluster');
 
-cluster(main);
-process.on('unhandledRejection', console.error);
+main();
 
 async function main() {
   if (config.help) {
@@ -23,6 +22,11 @@ async function main() {
     process.exit(0);
   }
 
+  if (!config.project.secret && !config.secret) {
+    await config.prompt('secret', { required: true });
+  }
+  await config.save();
+
   const mode = config.mode || config._[0];
   if (!mode || (mode.charAt(0) !== 's' && 'c' !== mode.charAt(0))) {
     console.error('Need a mode to run in: [server|client]');
@@ -31,14 +35,24 @@ async function main() {
     config.mode = mode;
   }
 
-  if (!config.project.secret && !config.secret) {
-    await config.prompt('secret', { required: true });
-  }
-  await config.save();
-
-  if (mode.charAt(0) === 's') {
-    require('./server')(config);
+  if (cluster.isMaster) {
+    cluster.fork();
+    cluster.on('exit', (worker, code, signal) => {
+      console.log('Restarting...')
+      cluster.fork();
+    });
   } else {
-    require('./client')(config);
+    if (mode.charAt(0) === 's') {
+      require('./server')(config);
+    } else {
+      if (!config.project.server) {
+        await config.project.prompt('server', { require: true });
+      }
+      if (!config.project.serverDir) {
+        await config.project.prompt('serverDir', { require: true });
+      }
+      await config.project.save();
+      require('./client')(config);
+    }
   }
 }

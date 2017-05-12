@@ -9,18 +9,9 @@ const watch = require('../utils/watch');
 module.exports = client;
 
 async function client(config) {
-  let server = config.project.server || config.server;
-  if (!server) {
-    await config.prompt('server', { require: true });
-    await config.save();
-    server = config.server;
-  }
+  let server = config.project.server;
   if (!server.match(/^http|^\/\//)) {
     server = 'http://' + config.server;
-  }
-  if (!config.project.serverDir) {
-    await config.project.prompt('serverDir', { require: true });
-    await config.project.save();
   }
   const serverDir = config.project.serverDir;
   server = server + ':' + config.port;
