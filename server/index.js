@@ -64,10 +64,11 @@ async function onConnection(socket, config) {
   });
 
   socket.on('server-dir', async _ => {
-    serverDir = Path.normalize(untildify(_.replace(/[\/\\]/g, '/')))
     try {
+      serverDir = Path.normalize(untildify(_.replace(/[\/\\]/g, '/')))
       await fs.access(serverDir);
       console.log('Syncing to:', serverDir);
+      config = config.getProjectConfig({ cwd: serverDir });
       socket.emit('server-dir:response', null, { serverDir });
     } catch (error) {
       console.error('Cannot sync to:', serverDir, error.message)
@@ -78,7 +79,7 @@ async function onConnection(socket, config) {
   });
 
   socket.on('enable-two-way', async() => {
-    if (!config.project.twoWay) {
+    if (!config.twoWay) {
       socket.emit('enable-two-way:response', 'twoWay not enabled by server');
       return;
     }
@@ -96,7 +97,7 @@ async function onConnection(socket, config) {
       console.log('Watching for changes...');
       watcher.on('change', debounce(files => files.map(relative => send({ relative })), 1000));
       watcher.on('add', debounce(files => files.map(relative => send({ relative })), 1000));
-      if (config.project.deleteOnRemote) {
+      if (config.deleteOnRemote) {
         watcher.on('unlink', debounce(files => files.map(relative => {
           console.log('Deleting', relative);
           socket.emit('delete-file', { relative });
@@ -110,7 +111,9 @@ async function onConnection(socket, config) {
   });
 
   socket.on('delete-file', async({ relative } = {}) => {
-    if (!config.project.deleteByRemote) {
+    console.log(`config.deleteByRemote:`, config.deleteByRemote);
+    console.log(`config.deleteByRemote:`, config.deleteByRemote);
+    if (!config.deleteByRemote) {
       throw new Error('delete-by-remote not enabled')
     }
     if (!serverDir) {

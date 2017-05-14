@@ -14,15 +14,15 @@ async function main() {
   if (config.editConfig) {
     await config.prompt();
     await config.save();
-    await config.project.prompt('saveProject');
-    if (config.project.saveProject) {
-      await config.project.prompt();
-      await config.project.save();
+    await config.prompt('saveProjectConfig');
+    if (config.saveProjectConfig) {
+      await config.cwdConfig.prompt();
+      await config.cwdConfig.save();
     }
     process.exit(0);
   }
 
-  if (!config.project.secret && !config.secret) {
+  if (!config.cwdConfig.secret) {
     await config.prompt('secret', { required: true });
   }
   await config.save();
@@ -45,13 +45,18 @@ async function main() {
     if (mode.charAt(0) === 's') {
       require('./server')(config);
     } else {
-      if (!config.project.server) {
-        await config.project.prompt('server', { require: true });
+      let toSave = false
+      if (!config.cwdConfig.server) {
+        await config.cwdConfig.prompt('server', { require: true });
+        toSave = true;
       }
-      if (!config.project.serverDir) {
-        await config.project.prompt('serverDir', { require: true });
+      if (!config.cwdConfig.serverDir) {
+        await config.cwdConfig.prompt('serverDir', { require: true });
+        toSave = true;
       }
-      await config.project.save();
+      if (toSave) {
+        await config.cwdConfig.save();
+      }
       require('./client')(config);
     }
   }

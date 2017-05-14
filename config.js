@@ -1,105 +1,84 @@
 const Config = require('configucius').default;
 
-const main = exports.main = new Config({
+const options = {
+  secret: {
+    type: 'string',
+    save: true,
+    prompt: true,
+  },
+  port: {
+    type: 'number',
+    default: 50581,
+    save: true,
+  },
+  server: {
+    type: 'string',
+    save: true,
+    prompt: config => config.mode && config.mode.charAt(0) !== 's',
+  },
+  cwd: {
+    type: 'string',
+    default: process.cwd(),
+  },
+  mode: {
+    type: 'string',
+  },
+  saveProjectConfig: {
+    type: 'boolean',
+  },
+  twoWay: {
+    alias: 'twoway',
+    type: 'boolean',
+    save: true,
+    prompt: true,
+  },
+  deleteOnRemote: {
+    type: 'boolean',
+    save: true,
+    prompt: true,
+  },
+  deleteByRemote: {
+    type: 'boolean',
+    save: true,
+    prompt: true,
+  },
+  editConfig: {
+    alias: 'e',
+    type: 'boolean',
+  },
+  help: {
+    alias: ['h', '?'],
+    type: 'boolean',
+  },
+};
+
+const main = new Config({
   configFile: '~/.socket-file-sync',
-  options: {
-    secret: {
-      type: 'string',
-      save: true,
-      prompt: true,
-    },
-    port: {
-      type: 'number',
-      default: 50581,
-      save: true,
-    },
-    server: {
-      alias: 'mainServer',
-      type: 'string',
-      save: true,
-      prompt: 'Main server',
-    },
-    cwd: {
-      type: 'string',
-      default: process.cwd(),
-    },
-    mode: {
-      type: 'string',
-    },
-    twoWay: {
-      alias: 'twoway',
-      type: 'boolean',
-      save: true,
-      prompt: true,
-    },
-    deleteOnRemote: {
-      type: 'boolean',
-      save: true,
-      prompt: true,
-    },
-    deleteByRemote: {
-      type: 'boolean',
-      save: true,
-      prompt: true,
-    },
-    editConfig: {
-      alias: 'e',
-      type: 'boolean',
-    },
-    help: {
-      alias: ['h', '?'],
-      type: 'boolean',
-    },
-  },
+  options,
 });
 
-const project = exports.project = main.project = new Config({
-  configFile: main.cwd + '/.socket-file-sync',
-  options: {
-    server: {
-      alias: 'projectServer',
-      type: 'string',
-      save: true,
-      prompt: 'Server for this project',
-    },
-    secret: {
-      alias: 'projectServerSecret',
-      type: 'string',
-      save: true,
-      prompt: config => config.server && "Secret for this project's server",
-    },
-    serverDir: {
-      type: 'string',
-      save: true,
-      prompt: 'Server project dir',
-    },
-    saveProject: {
-      type: 'boolean',
-      default: true,
-    },
-    twoWay: {
-      alias: 'twoway',
-      type: 'boolean',
-      save: true,
-      prompt: true,
-    },
-    deleteOnRemote: {
-      type: 'boolean',
-      save: true,
-      prompt: true,
-    },
-    deleteByRemote: {
-      type: 'boolean',
-      save: true,
-      prompt: true,
-    },
-  },
-});
+const getProjectConfig = opts => {
+  const newOpts = {};
+  for (const key in options) {
+    newOpts[key] = Object.assign({}, options[key]);
+    if (typeof opts[key] !== 'undefined') {
+      if (opts[key].default) {
+        Object.assign(newOpts[key], opts[key])
+      } else {
+        newOpts[key].default = opts[key];
+      }
+    }
+  }
+  const project = new Config({
+    configFile: opts.cwd + '/.socket-file-sync',
+    options: newOpts,
+  });
+  return new Proxy(project, {
+    get: (project, key) => project[key] || main[key],
+  });
+};
 
-module.exports = new Proxy(main, {
-  get: (main, key) => main[key] || project[key],
-});
+main.getProjectConfig = getProjectConfig;
+main.cwdConfig = getProjectConfig({ cwd: main.cwd });
 
-module.exports.project = new Proxy(project, {
-  get: (project, key) => project[key] || main[key],
-});
+module.exports = main;
