@@ -14,7 +14,12 @@ const options = {
   server: {
     type: 'string',
     save: true,
-    prompt: config => config.mode && config.mode.charAt(0) !== 's',
+    prompt: config => config.mode && config.mode.charAt(0) === 'c',
+  },
+  serverDir: {
+    type: 'string',
+    save: true,
+    prompt: config => Boolean(config.server),
   },
   cwd: {
     type: 'string',
@@ -73,12 +78,15 @@ const getProjectConfig = opts => {
     configFile: opts.cwd + '/.socket-file-sync',
     options: newOpts,
   });
-  return new Proxy(project, {
+  const proxy = new Proxy(project, {
     get: (project, key) => project[key] || main[key],
   });
+  project.proxy = proxy;
+  return proxy;
 };
 
 main.getProjectConfig = getProjectConfig;
 main.cwdConfig = getProjectConfig({ cwd: main.cwd });
+main.cwdConfig.main = main;
 
 module.exports = main;
