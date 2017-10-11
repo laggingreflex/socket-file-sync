@@ -29,7 +29,6 @@ module.exports = (socket, root, pre) => {
       if (pre) pre('receive', { relative, full });
       const tmp = Path.join(os.tmpdir(), shortid.generate());
       const bkp = Path.join(os.tmpdir(), shortid.generate());
-      const bkpCopyPromise = fs.copy(full, bkp);
       console.log('Receiving', relative);
       console.log('Writing to temporary path:', tmp);
       stream.pipe(fs.createWriteStream(tmp));
@@ -39,29 +38,45 @@ module.exports = (socket, root, pre) => {
           socket.emit('receive-file:response', e, { relative, full });
         }
         console.log('Received', relative);
+
+        let exists = false;
         try {
-          await bkpCopyPromise;
+          await fs.access(full);
+          exists = true;
         } catch (error) {
-          console.error('Backup failed', error.message, '\nContinuing anyway');
+          console.log(`File doesn't exist`);
         }
 
-        if (await streamEqual(
-            fs.createReadStream(full),
-            fs.createReadStream(tmp)
-          )) {
-          console.warn('Skipping copying', full);
-          throwError('Same contents');
-          return;
+        if (exists) {
+          try {
+            await fs.copy(full, bkp);
+          } catch (error) {
+            console.error('Failed to backup original file. ', error.message, '\nContinuing anyway');
+          }
+          try {
+            if (await streamEqual(
+                fs.createReadStream(full),
+                fs.createReadStream(tmp)
+              )) {
+              console.warn('Skipping copying', full);
+              throwError('Same contents');
+              return;
+            }
+          } catch (error) {
+            console.error('Failed to remove original file. ', error.message, '\nContinuing anyway');
+          }
+
+          try {
+            await fs.remove(full)
+          } catch (error) {
+            console.error('Failed to remove original file. ', error.message, '\nContinuing anyway');
+            // const err = 'Failed to remove original file. ' + error.message
+            // console.error(err);
+            // socket.emit('receive-file:response', err, { relative, full });
+            // return;
+          }
         }
 
-        try {
-          await fs.remove(full)
-        } catch (error) {
-          const err = 'Failed to remove original file. ' + error.message
-          console.error(err);
-          socket.emit('receive-file:response', err, { relative, full });
-          return;
-        }
         try {
           await fs.rename(tmp, full);
         } catch (error) {
