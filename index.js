@@ -6,6 +6,10 @@ const cluster = require('cluster');
 main();
 
 async function main() {
+  process.on('SIGINT', function () {
+    process.exit(0);
+  });
+
   if (config.help) {
     console.log('Todo, just see this for now:', require('fs').readFileSync(__filename, 'utf8'));
     process.exit(0);
