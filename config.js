@@ -1,4 +1,4 @@
-const Config = require('configucius').default;
+const Config = require('configucius');
 
 const options = {
   secret: {
