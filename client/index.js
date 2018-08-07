@@ -1,88 +1,70 @@
 const io = require('socket.io-client');
-const socketWrap = require('../utils/socket');
-const streamSocket = require('../utils/socket-stream');
-const fs = require('fs-extra');
-const Path = require('path');
-const debounce = require('debounce-queue');
-const watch = require('../utils/watch');
+const { URL } = require('url');
+const Cryptr = require('cryptr')
 
-module.exports = client;
+module.exports = async config => {
 
-async function client(config) {
-  config = config.cwdConfig;
-  let server = config.server;
-  if (!server.match(/^http|^\/\//)) {
-    server = 'http://' + config.server;
+  if (!config.secret) throw new Error('Need a secret');
+  const cryptr = new Cryptr(config.secret);
+
+  if (!config.server) {
+    throw new Error('Need a server');
   }
-  const serverDir = config.serverDir;
-  server = server + ':' + config.port;
-  console.log('Connecting to', server + '...');
 
-  const socket = socketWrap(io.connect(server));
-
-  const initialize = () => {
-    socket.emit('auth', config.secret);
-    socket.emit('server-dir', serverDir);
-  };
-
-  socket.on('connect', () => {
-    console.log('Connected. Initializing...');
-    initialize();
-  });
-  socket.on('disconnect', () => console.warn('Disconnected. Waiting to reconnect...'));
-  socket.on('error', error => console.error('Error:', error));
-  socket.on('reconnect', () => {
-    console.log('Reconnected. Re-initializing');
-    initialize();
-  });
-
-  socket.on('auth:response', error => error
-    ? console.error('Failed to authenticate.', error)
-    : console.log('Authenticated'));
-
-  socket.on('server-dir:response', (error, { serverDir }) => error
-    ? console.error('Cannot sync to:', serverDir, error)
-    : console.log('Syncing to:', serverDir));
-
-  const send = streamSocket(socket, () => config.cwd, mode => {
-    if (mode === 'receive' && !config.twoWay) {
-      throw new Error('Rejected file sent from server. Set --two-way option to enable')
-    }
-  });
-
-  const watcher = await watch(config.cwd, { cwd: config.cwd });
-  watcher.on('change', debounce(files => files.map(relative => send({ relative })), 1000));
-  watcher.on('add', debounce(files => files.map(relative => send({ relative })), 1000));
-  if (config.deleteOnRemote) {
-    console.log('delete-on-remote enabled');
-    watcher.on('unlink', debounce(files => files.map(relative => {
-      console.log('Deleting file', relative);
-      socket.emit('delete-file', { relative });
-    }), 1000));
+  let rawUrl = config.server;
+  if (!rawUrl.match(/^http:/)) {
+    rawUrl = 'http://' + rawUrl;
   }
-  socket.on('delete-file', async({ relative } = {}) => {
-    if (!config.deleteByRemote) {
-      throw new Error('delete-by-remote not enabled')
-    }
-    await fs.remove(Path.join(config.cwd, relative));
-    socket.emit('delete-file:response', null, { relative });
-  });
-  socket.on('delete-file:response', (error, { relative } = {}) => error
-    ? console.error('Failed to delete file on remote:', relative, error)
-    : console.log('Deleted file', relative));
 
-  socket.once('server-dir:response', error => {
-    if (!error && config.twoWay) {
-      console.log('Enabling two-way sync from server...');
-      socket.emit('enable-two-way');
+  const serverUrl = new URL(rawUrl);
+
+  if (serverUrl.port && serverUrl.port !== config.port) {
+    if (serverUrl.port !== config.port) {
+      throw new Error(`{serverUrl.port: ${serverUrl.port}} !== {config.port: ${config.port}}`);
+    }
+  } else if (config.port) {
+    serverUrl.port = config.port;
+  } else {
+    throw new Error('Need a port');
+  }
+
+  // console.log(`Connecting to`, String(serverUrl));
+  const socket = io(String(serverUrl), {
+    // rejectUnauthorized: false,
+    query: {
+      config: cryptr.encrypt(JSON.stringify({
+        serverDir: config.serverDir,
+      })),
     }
   });
-  socket.on('enable-two-way:response', error => error
-    ? console.error('Failed to enable two-way sync by server.', error)
-    : (console.log('Two-way enabled by server'),
-      config.deleteByRemote
-      ? console.log('delete-by-remote enabled')
-      : console.log('delete-by-remote not enabled'))
-  );
 
-}
+  const on = (event, { error = null, success = null } = {}) => new Promise((resolve, reject) => socket.once(event, (data = '') => {
+    if (error !== null) {
+      console.error(...[error, data].filter(Boolean));
+      reject(new Error([error, data].filter(Boolean).join(' ')))
+    } else {
+      console.log(success, data);
+      resolve(data)
+    }
+  }));
+
+  await Promise.race([
+    Promise.all([
+      on('connect', { success: `Connected to ${String(serverUrl)}` }),
+      on('ready', { success: `Ready` }),
+    ]),
+    on('connect_error', { error: `Error connecting to ${String(serverUrl)}.` }),
+    on('error', { error: '' }),
+  ]);
+
+  socket.on('error', () => console.error('?????????'))
+
+
+  // socket.on('connect', console.error)
+  // socket.on('connect_error', console.er    ror)
+  // const socket = io('https://127.0.0.1:8081/');
+  // console.log(`socket:`, socket);
+  // socket.on('connecting', () => {
+  //   console.log('connecting');
+  // })
+};
