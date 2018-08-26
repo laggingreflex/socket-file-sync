@@ -1,11 +1,14 @@
 const http = require('http');
 const IO = require('socket.io');
 const acknowledge = require('socket.io-acknowledge')
-const { config } = require('../config')
+const encrypt = require('socket.io-encrypt')
+const asyncBreak = require('break-async-iterator');
+const utils = require('../utils')
 const use = require('./use');
 const on = require('./on');
 
-module.exports = async config => {
+module.exports = async function(config) {
+
   const server = http.createServer((req, res) => res.end('Socket File Sync running'));
   const io = IO(server);
 
@@ -19,24 +22,38 @@ module.exports = async config => {
     await p;
     console.log('Listening for connections on', server.address());
   } catch (error) {
-    console.error(error);
-    console.error('Error starting server');
-    process.exit(1);
+    throw new Error(`Error starting server. ${error.message}`);
   }
 
-  // io.use(socket => console.log('hji'));
   io.use = (use => fn => use(async (socket, next) => {
     try {
       await fn(socket);
       next();
     } catch (error) {
-      socket.log.error(error);
+      if (error instanceof utils.Error) {
+        socket.log.error(error.message);
+      } else {
+        socket.log.error(error);
+      }
       next(error);
     }
   }))(io.use.bind(io));
+
   io.use(use.log(config));
   io.use(use.config(config));
   io.use(acknowledge);
+  io.use(encrypt(config.secret));
 
   io.on('connection', on.connection(config));
-}
+
+  const cleanup = () => {
+    try { io.close(); } catch (warn) { console.warn(warn); }
+  };
+
+  const done = new Promise((r, x) => {
+    io.on('close', r);
+    io.on('error', x);
+  }).finally(cleanup);
+
+  return { io, cleanup, done };
+};

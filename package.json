@@ -4,36 +4,44 @@
   "description": "Sync files to server using socket.io",
   "main": "index.js",
   "bin": {
-    "socket-file-sync": "index.js",
-    "sfs": "index.js"
+    "socket-file-sync": "bin/index.js",
+    "sfs": "bin/index.js"
   },
   "scripts": {
-    "test": "node test"
+    "test": "mochista"
   },
   "repository": "laggingreflex/socket-file-sync",
   "dependencies": {
-    "chokidar": "^1.7.0",
-    "configucius": "^2.0.0",
-    "cryptr": "^3.0.0",
-    "debounce-queue": "^0.2.0",
-    "debug": "^2.6.6",
-    "enquire-simple": "^0.1.0",
-    "fs-extra": "^3.0.1",
-    "https-pem": "^2.0.0",
-    "lodash": "^4.17.4",
-    "merge-options": "^1.0.0",
+    "break-async-iterator": "^0.1.0",
+    "chokidar": "^2.0.4",
+    "cryptr": "^4.0.0",
+    "debounce-queue": "^0.3.0",
+    "enquire-simple": "^0.2.0",
+    "file-watch-iterator": "^0.6.0",
+    "fs-extra": "^7.0.0",
+    "killable": "^1.0.0",
+    "lodash": "^4.17.10",
+    "merge-options": "^1.0.1",
     "minimatch": "^3.0.4",
-    "parse-gitignore": "^0.4.0",
-    "proximify": "^0.3.0",
-    "proxy-merge": "^1.0.0",
-    "pwd": "^1.1.0",
-    "shortid": "^2.2.8",
+    "parse-gitignore": "^1.0.1",
+    "shortid": "^2.2.13",
     "simple-socket-stream": "^0.2.0",
-    "socket.io": "^2.0.1",
-    "socket.io-acknowledge": "^0.1.0",
-    "socket.io-client": "^2.0.1",
-    "socket.io-stream": "^0.9.1",
-    "stream-equal": "^1.0.0",
-    "untildify": "^3.0.2"
+    "socket.io": "^2.1.1",
+    "socket.io-acknowledge": "^0.3.0",
+    "socket.io-client": "^2.1.1",
+    "socket.io-encrypt": "^0.1.0",
+    "stream-equal": "^1.1.1",
+    "streams-to-async-iterator": "^0.4.0",
+    "untildify": "^3.0.3",
+    "why-is-node-running": "^2.0.2",
+    "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "directory-snapshot": "0.0.5",
+    "fs-restore": "^0.1.0",
+    "literal-toast": "^1.0.0",
+    "merge-async-iterators": "^0.2.1",
+    "mochista": "^0.15.0"
   }
 }

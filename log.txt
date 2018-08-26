@@ -1,0 +1,473 @@
+[1535284644566] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535284645273] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535284645276] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535284645278] [server] [fEzf2buszx7iXyphAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535284645422] [client] Syncing 2 files...
+[1535284645438] [server] [fEzf2buszx7iXyphAAAA] Error: Same contents { file: 'test.txt' }
+[fEzf2buszx7iXyphAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535284645439] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535284645548] [client] Syncing 1 files...
+[1535284645556] [server] [fEzf2buszx7iXyphAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535284645557] [client] [1/1] Synced: test.txt
+[1535284645595] [server] onMessage(STOP)
+Cleaning up
+[1535284645710] [client] onMessage(STOP)
+Cleaning up
+Cleaning up[1535284719696] [server] Debugger listening on ws://127.0.0.1:55352/bc39f598-ad70-4472-b100-138ab468c68f
+For help, see: https://nodejs.org/en/docs/inspector
+[1535284720027] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535284720339] [client] Debugger listening on ws://127.0.0.1:55353/b5a4640f-58be-489a-89de-59fe3874a785
+For help, see: https://nodejs.org/en/docs/inspector
+[1535284721034] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535284721035] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535284721037] [server] [uHf4sPIbp7DrsI-yAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535284721179] [client] Syncing 2 files...
+[1535284721188] [server] [uHf4sPIbp7DrsI-yAAAA] Error: Same contents { file: 'test.txt' }
+[1535284721190] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535284721192] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535284721194] [server] [uHf4sPIbp7DrsI-yAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535284721301] [client] Syncing 1 files...
+[1535284721305] [server] [uHf4sPIbp7DrsI-yAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535284721306] [client] [1/1] Synced: test.txt
+[1535284721399] [server] onMessage(STOP)
+Cleaning up
+[1535284721526] [client] onMessage(STOP)
+Cleaning up
+Cleaning up
+[1535284737873] [server] Debugger listening on ws://127.0.0.1:55361/17911589-6597-4144-95f5-706ea6e2f60d
+For help, see: https://nodejs.org/en/docs/inspector
+[1535284738269] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535284738553] [client] Debugger listening on ws://127.0.0.1:55362/94bcccc3-e37a-4ff1-8f0a-94aca66a18ec
+For help, see: https://nodejs.org/en/docs/inspector
+[1535284739270] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535284739272] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535284739274] [server] [5577BbmzqZ7x4eWYAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535284739419] [client] Syncing 2 files...
+[1535284739428] [server] [5577BbmzqZ7x4eWYAAAA] Error: Same contents { file: 'test.txt' }
+[1535284739430] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535284739432] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535284739434] [server] [5577BbmzqZ7x4eWYAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535284739540] [client] Syncing 1 files...
+[1535284739546] [server] [5577BbmzqZ7x4eWYAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535284739547] [client] [1/1] Synced: test.txt
+[1535284739651] [server] onMessage(STOP)
+Cleaning up
+[1535284739780] [client] onMessage(STOP)
+Cleaning up
+Cleaning up
+[1535284874773] [server] Debugger listening on ws://127.0.0.1:55418/06dc3dfd-18e8-46ce-9ab0-1752a4ac8b7f
+For help, see: https://nodejs.org/en/docs/inspector
+[1535284875096] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535284875400] [client] Debugger listening on ws://127.0.0.1:55419/4c8c0997-2e06-4caa-9c76-4e95d2929df3
+For help, see: https://nodejs.org/en/docs/inspector
+[1535284876079] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535284876081] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535284876083] [server] [d0hY13wy2OaD8PVIAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535284876230] [client] Syncing 2 files...
+[1535284876251] [server] [d0hY13wy2OaD8PVIAAAA] Error: Same contents { file: 'test.txt' }
+[1535284876255] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535284876257] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535284876262] [server] [d0hY13wy2OaD8PVIAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535284876368] [client] Syncing 1 files...
+[1535284876373] [server] [d0hY13wy2OaD8PVIAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535284876374] [client] [1/1] Synced: test.txt
+[1535286006994] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286007686] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286007689] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286007691] [server] [_2L0WidG_89OISe9AAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286007833] [client] Syncing 2 files...
+[1535286007863] [server] [_2L0WidG_89OISe9AAAA] Error: Same contents { file: 'test.txt' }
+[_2L0WidG_89OISe9AAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286007865] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535286007973] [client] Syncing 1 files...
+[1535286007979] [server] [_2L0WidG_89OISe9AAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286007980] [client] [1/1] Synced: test.txt
+[1535286026710] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286027400] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286027404] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286027406] [server] [ISQyOOihQ01eLQRBAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286027546] [client] Syncing 2 files...
+[1535286027557] [server] [ISQyOOihQ01eLQRBAAAA] Error: Same contents { file: 'test.txt' }
+[ISQyOOihQ01eLQRBAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286027558] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535286027665] [client] Syncing 1 files...
+[1535286027669] [server] [ISQyOOihQ01eLQRBAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286027671] [client] [1/1] Synced: test.txt
+[1535286028721] [client] Syncing 2 files...
+[1535286053160] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286053829] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286053831] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286053833] [server] [dMXoh_k3O_Z-ROZZAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286053971] [client] Syncing 2 files...
+[1535286053984] [server] [dMXoh_k3O_Z-ROZZAAAA] Error: Same contents { file: 'test.txt' }
+[dMXoh_k3O_Z-ROZZAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286053985] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535286054093] [client] Syncing 1 files...
+[1535286054098] [server] [dMXoh_k3O_Z-ROZZAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286054098] [client] [1/1] Synced: test.txt
+[1535286055164] [client] Syncing 2 files...
+[1535286075158] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286075861] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286075864] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286075865] [server] [ctjmyBiBACkHNA-qAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286076007] [client] Syncing 2 files...
+[1535286076018] [server] [ctjmyBiBACkHNA-qAAAA] Error: Same contents { file: 'test.txt' }
+[ctjmyBiBACkHNA-qAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286076019] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535286076125] [client] Syncing 1 files...
+[1535286076130] [server] [ctjmyBiBACkHNA-qAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286076131] [client] [1/1] Synced: test.txt
+[1535286798758] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286799443] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286799446] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286799448] [server] [KODPwR3aMxaxJBQVAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286799587] [client] Syncing 2 files...
+[1535286799597] [server] [KODPwR3aMxaxJBQVAAAA] Error: Same contents { file: 'test.txt' }
+[KODPwR3aMxaxJBQVAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286799598] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535286799704] [client] Syncing 1 files...
+[1535286799708] [server] [KODPwR3aMxaxJBQVAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286799709] [client] [1/1] Synced: test.txt
+[1535286807551] [server] Debugger listening on ws://127.0.0.1:55883/a49f1633-03b8-411a-b162-d773a68eba6c
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286807878] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286808182] [client] Debugger listening on ws://127.0.0.1:55884/b00966f1-733b-43c6-b052-b61882e79a7b
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286808829] [client] !
+[1535286808983] [server] !
+[1535286808984] [server] [TNIF0qdkHIjqQlxYAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286816995] [server] Debugger listening on ws://127.0.0.1:55895/31795a6d-828c-4be9-9da2-9a12460d598c
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286817331] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286817641] [client] Debugger listening on ws://127.0.0.1:55896/c567d5d0-8f02-4075-91da-36972166fe2e
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286818331] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286818333] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286818335] [server] [imGMgy9I2hXT1rcZAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286818484] [client] Syncing 2 files...
+[1535286829278] [server] Debugger listening on ws://127.0.0.1:55903/c172d296-702f-4952-8088-6976bffc9fb6
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286829607] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286829896] [client] Debugger listening on ws://127.0.0.1:55904/f2899e74-1022-46fc-a695-88d3b23a255b
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286830595] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286830597] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286830599] [server] [QgVM50DIqiCHN8UhAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286830753] [client] Syncing 2 files...
+[1535286845868] [server] Debugger listening on ws://127.0.0.1:55922/301ddcbe-e474-441e-a6be-334d52f481eb
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286846208] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286846504] [client] Debugger listening on ws://127.0.0.1:55923/b23abc5c-a7ab-403d-b7ad-ae9a90351dbc
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286847207] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286847209] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286847211] [server] [vjb4jXXHFyJwe21gAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286847359] [client] Syncing 2 files...
+[1535286847366] [server] [vjb4jXXHFyJwe21gAAAA] Error: Same contents { file: 'test.txt' }
+[1535286847368] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535286847370] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535286847373] [server] [vjb4jXXHFyJwe21gAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286847479] [client] Syncing 1 files...
+[1535286847494] [server] [vjb4jXXHFyJwe21gAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286847497] [client] [1/1] Synced: test.txt
+[1535286877639] [server] Debugger listening on ws://127.0.0.1:55936/328bb974-2047-4a87-ade1-9be820407ed8
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286877973] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286878288] [client] Debugger listening on ws://127.0.0.1:55937/aae491f9-1355-4f8a-b13c-c2e3cbb5934d
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286878979] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286878981] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286878982] [server] [LZiY86URyFbyt2zuAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286879130] [client] Syncing 2 files...
+[1535286879139] [server] [LZiY86URyFbyt2zuAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286879141] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535286879143] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535286879145] [server] [LZiY86URyFbyt2zuAAAA] Error: Same contents { file: 'test.txt' }
+[1535286879252] [client] Syncing 1 files...
+[1535286879256] [server] [LZiY86URyFbyt2zuAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286879257] [client] [1/1] Synced: test.txt
+[1535286881398] [server] onExit
+[1535286881499] [client] onExit
+[1535286918594] [server] Debugger listening on ws://127.0.0.1:55953/740709bd-dc61-4664-bae3-fdc4dd10f2f6
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286918957] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286919253] [client] Debugger listening on ws://127.0.0.1:55955/c5d2eb2f-1837-40d1-bbe2-3ac3f9f7080c
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286919940] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286919942] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286919944] [server] [ahyF0jMv19KZjEf6AAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286920095] [client] Syncing 2 files...
+[1535286920103] [server] [ahyF0jMv19KZjEf6AAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286920105] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535286920107] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535286920109] [server] [ahyF0jMv19KZjEf6AAAA] Error: Same contents { file: 'test.txt' }
+[1535286920214] [client] Syncing 1 files...
+[1535286920218] [server] [ahyF0jMv19KZjEf6AAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286920219] [client] [1/1] Synced: test.txt
+[1535286922316] [server] onExit
+[1535286922317] [server] result: []
+[1535286922441] [client] onExit
+[1535286922442] [client] result: []
+[1535286940096] [server] Debugger listening on ws://127.0.0.1:55974/cc37d475-acb2-4577-a09a-f3592a27bd7c
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286940439] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286940732] [client] Debugger listening on ws://127.0.0.1:55975/a1024853-6abd-43c5-ba8a-2665c2c15919
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286941414] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286941416] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286941418] [server] [-_50GYrSSxMbvD_bAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286941565] [client] Syncing 2 files...
+[1535286941574] [server] [-_50GYrSSxMbvD_bAAAA] Error: Same contents { file: 'test.txt' }
+[1535286941576] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535286941578] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535286941580] [server] [-_50GYrSSxMbvD_bAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286941685] [client] Syncing 1 files...
+[1535286941689] [server] [-_50GYrSSxMbvD_bAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286941690] [client] [1/1] Synced: test.txt
+[1535286941791] [server] onExit
+[1535286941791] [server] result: []
+[1535286941913] [client] onExit
+[1535286941913] [client] result: []
+[1535286996830] [server] Debugger listening on ws://127.0.0.1:55997/240aa20e-b52d-47a0-b3d1-bb47b3567b3c
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286997176] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535286997476] [client] Debugger listening on ws://127.0.0.1:55998/51053f9c-6fc9-4069-848f-0047c2f590a2
+For help, see: https://nodejs.org/en/docs/inspector
+[1535286998175] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535286998177] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535286998179] [server] [AhfjpR5P148Bf463AAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535286998327] [client] Syncing 2 files...
+[1535286998336] [server] [AhfjpR5P148Bf463AAAA] Error: Same contents { file: 'test/test.txt' }
+[1535286998338] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535286998340] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535286998342] [server] [AhfjpR5P148Bf463AAAA] Error: Same contents { file: 'test.txt' }
+[1535286998448] [client] Syncing 1 files...
+[1535286998454] [server] [AhfjpR5P148Bf463AAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535286998454] [client] [1/1] Synced: test.txt
+[1535286998558] [server] onExit
+[1535286998558] [server] result: []
+[1535286998685] [client] onExit
+[1535286998686] [client] result: []
+[1535287016469] [server] Debugger listening on ws://127.0.0.1:56012/81685017-7f50-4925-a26e-c676d36eaef9
+For help, see: https://nodejs.org/en/docs/inspector
+[1535287016788] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535287017093] [client] Debugger listening on ws://127.0.0.1:56013/5fdc3cdc-f2bd-4763-8ab1-a2dff914c0ec
+For help, see: https://nodejs.org/en/docs/inspector
+[1535287017775] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535287017777] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535287017779] [server] [Sb28zjU6jwEYY_D2AAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535287017930] [client] Syncing 2 files...
+[1535287017937] [server] [Sb28zjU6jwEYY_D2AAAA] Error: Same contents { file: 'test.txt' }
+[1535287017940] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535287017941] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535287017945] [server] [Sb28zjU6jwEYY_D2AAAA] Error: Same contents { file: 'test/test.txt' }
+[1535287018052] [client] Syncing 1 files...
+[1535287018067] [server] [Sb28zjU6jwEYY_D2AAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535287018070] [client] [1/1] Synced: test.txt
+[1535287018181] [server] onExit
+[1535287018182] [server] result: []
+[1535287018298] [client] onExit
+[1535287018298] [client] result: []
+[1535287023019] [server] Debugger listening on ws://127.0.0.1:56020/9e50de7c-66eb-4b23-992f-d7fa1e8456f4
+For help, see: https://nodejs.org/en/docs/inspector
+[1535287023352] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535287023635] [client] Debugger listening on ws://127.0.0.1:56021/4efff942-9086-44e2-94bd-49405ae5d9a3
+For help, see: https://nodejs.org/en/docs/inspector
+[1535287024372] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535287024374] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535287024376] [server] [STtYD-CO49Si4odQAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535287024522] [client] Syncing 2 files...
+[1535287024531] [server] [STtYD-CO49Si4odQAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535287024533] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535287024535] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535287024537] [server] [STtYD-CO49Si4odQAAAA] Error: Same contents { file: 'test.txt' }
+[1535287024642] [client] Syncing 1 files...
+[1535287024646] [server] [STtYD-CO49Si4odQAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535287024647] [client] [1/1] Synced: test.txt
+[1535287024747] [server] onExit
+[1535287024748] [server] result: []
+[1535287024870] [client] onExit
+[1535287024871] [client] result: []
+[1535289595663] [server] Debugger listening on ws://127.0.0.1:56487/94c7a798-3c7a-4904-b041-91ee2af0e90a
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289596021] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535289596335] [client] Debugger listening on ws://127.0.0.1:56488/83bcd6cf-b899-4789-83e3-ac48a9b6ff98
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289597073] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535289597074] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535289597076] [server] [OqBMbfsjU1yQS4IVAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535289597226] [client] Syncing 2 files...
+[1535289597235] [server] [OqBMbfsjU1yQS4IVAAAA] Error: Same contents { file: 'test.txt' }
+[1535289597237] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535289597239] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535289597241] [server] [OqBMbfsjU1yQS4IVAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535289597346] [client] Syncing 1 files...
+[1535289597351] [server] [OqBMbfsjU1yQS4IVAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535289597352] [client] [1/1] Synced: test.txt
+[1535289597452] [server] onExit
+[1535289597453] [server] result: []
+[1535289597578] [client] onExit
+[1535289597578] [client] result: []
+[1535289636595] [server] Debugger listening on ws://127.0.0.1:56503/5cff7150-5900-4f8b-b340-94e15ebb97d9
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289636935] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535289637238] [client] Debugger listening on ws://127.0.0.1:56504/972fb53d-cdf6-47e6-8206-50592b31a435
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289637956] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535289637958] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535289637960] [server] [PJaSQ2hm5TpQA9K6AAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535289638110] [client] Syncing 2 files...
+[1535289638117] [server] [PJaSQ2hm5TpQA9K6AAAA] Error: Same contents { file: 'test.txt' }
+[1535289638119] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535289638121] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535289638123] [server] [PJaSQ2hm5TpQA9K6AAAA] Error: Same contents { file: 'test/test.txt' }
+[1535289638229] [client] Syncing 1 files...
+[1535289638234] [server] [PJaSQ2hm5TpQA9K6AAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535289638235] [client] [1/1] Synced: test.txt
+[1535289638337] [server] onExit
+[1535289638338] [server] result:
+[1535289638465] [client] onExit
+[1535289638466] [client] result:
+[1535289690772] [server] Debugger listening on ws://127.0.0.1:56531/a86f4df7-d1a2-4c6c-af63-b9f6c579dfe0
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289691167] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535289691461] [client] Debugger listening on ws://127.0.0.1:56532/554c9359-4a2e-4d92-8258-8c47b207013b
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289692185] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535289692187] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535289692189] [server] [chgFrislZvNBmX0JAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535289692336] [client] Syncing 2 files...
+[1535289692344] [server] [chgFrislZvNBmX0JAAAA] Error: Same contents { file: 'test.txt' }
+[1535289692346] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535289692348] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535289692350] [server] [chgFrislZvNBmX0JAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535289692458] [client] Syncing 1 files...
+[1535289692463] [server] [chgFrislZvNBmX0JAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535289692464] [client] [1/1] Synced: test.txt
+[1535289692561] [server] onExit
+cbResult: undefined
+[1535289692562] [server] result: undefined
+[1535289692562] [server] TypeError: Cannot read property 'forEach' of undefined
+    at write (C:\Users\x\Documents\programming\nodejs\libraries\Forks\c8\lib\wrap.js:32:12)
+    at wrap (C:\Users\x\Documents\programming\nodejs\libraries\Forks\c8\lib\wrap.js:27:3)
+[1535289692689] [client] onExit
+[1535289692690] [client] cbResult: undefined
+[1535289692690] [client] result: undefined
+[1535289692691] [client] TypeError: Cannot read property 'forEach' of undefined
+    at write (C:\Users\x\Documents\programming\nodejs\libraries\Forks\c8\lib\wrap.js:32:12)
+    at wrap (C:\Users\x\Documents\programming\nodejs\libraries\Forks\c8\lib\wrap.js:27:3)
+[1535289978841] [server] Debugger listening on ws://127.0.0.1:56579/18f9cf47-f819-4bd0-b398-16cb0415a9c9
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289979202] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535289979518] [client] Debugger listening on ws://127.0.0.1:56580/951b0739-0101-49d0-9c5a-92e7a1588aa0
+For help, see: https://nodejs.org/en/docs/inspector
+[1535289980288] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535289980290] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535289980293] [server] [NdzsmQ9-rwzE2i1FAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535289980443] [client] Syncing 2 files...
+[1535289980449] [server] [NdzsmQ9-rwzE2i1FAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535289980452] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535289980454] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535289980457] [server] [NdzsmQ9-rwzE2i1FAAAA] Error: Same contents { file: 'test.txt' }
+[1535289980562] [client] Syncing 1 files...
+[1535289980566] [server] [NdzsmQ9-rwzE2i1FAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535289980567] [client] [1/1] Synced: test.txt
+[1535289980602] [server] onExit
+[1535289980716] [client] onExit
+[1535290004245] [server] Debugger listening on ws://127.0.0.1:56601/be727bc4-97d4-4516-8323-68368120bd25
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290004603] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290004916] [client] Debugger listening on ws://127.0.0.1:56602/8e8fdcdc-c250-486e-bc57-80c3c76bc837
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290005678] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535290005680] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535290005682] [server] [k2H3tqR1CFKOaBu_AAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535290005830] [client] Syncing 2 files...
+[1535290005840] [server] [k2H3tqR1CFKOaBu_AAAA] Error: Same contents { file: 'test.txt' }
+[1535290005842] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535290005844] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535290005848] [server] [k2H3tqR1CFKOaBu_AAAA] Error: Same contents { file: 'test/test.txt' }
+[1535290005958] [client] Syncing 1 files...
+[1535290005962] [server] [k2H3tqR1CFKOaBu_AAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535290005963] [client] [1/1] Synced: test.txt
+[1535290496440] [server] Debugger listening on ws://127.0.0.1:56655/76b5e784-e2ff-45b5-8ee4-0691cd858099
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290496814] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290497132] [client] Debugger listening on ws://127.0.0.1:56657/56184608-8398-4dd8-bc6d-b43a57a6379f
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290497846] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535290497848] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535290497850] [server] [-pq4fetOL_YWT3hwAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535290498002] [client] Syncing 2 files...
+[1535290498010] [server] [-pq4fetOL_YWT3hwAAAA] Error: Same contents { file: 'test.txt' }
+[1535290498012] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535290498014] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535290498016] [server] [-pq4fetOL_YWT3hwAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535290498122] [client] Syncing 1 files...
+[1535290498138] [server] [-pq4fetOL_YWT3hwAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535290498140] [client] [1/1] Synced: test.txt
+[1535290516504] [server] Debugger listening on ws://127.0.0.1:56678/e53407ea-cfe9-47af-b8ba-caf881e541a7
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290516883] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290517186] [client] Debugger listening on ws://127.0.0.1:56679/c72a80ea-82ac-4dd7-b703-183368c59944
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290518028] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535290518030] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535290518032] [server] [T_7qztGOEne7yfvjAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535290518185] [client] Syncing 2 files...
+[1535290518213] [server] [T_7qztGOEne7yfvjAAAA] Error: Same contents { file: 'test.txt' }
+[1535290518218] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535290518221] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535290518224] [server] [T_7qztGOEne7yfvjAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535290518330] [client] Syncing 1 files...
+[1535290518335] [server] [T_7qztGOEne7yfvjAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535290518336] [client] [1/1] Synced: test.txt
+[1535290550172] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290550885] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535290550887] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535290550889] [server] [URyU19ZMmJJyxfDhAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535290551028] [client] Syncing 2 files...
+[1535290551035] [server] [URyU19ZMmJJyxfDhAAAA] Error: Same contents { file: 'test.txt' }
+[1535290551036] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535290551038] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535290551039] [server] [URyU19ZMmJJyxfDhAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535290551143] [client] Syncing 1 files...
+[1535290551148] [server] [URyU19ZMmJJyxfDhAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535290551149] [client] [1/1] Synced: test.txt
+[1535290554180] [server] Debugger listening on ws://127.0.0.1:56695/6b9a1a07-d24e-4e8d-89a6-89a6fd7d172c
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290554555] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290554869] [client] Debugger listening on ws://127.0.0.1:56696/f87d41c6-ec7b-4dc3-859a-7806ca34f0ab
+For help, see: https://nodejs.org/en/docs/inspector
+[1535290555583] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535290555585] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535290555587] [server] [I7FO005pXopSFyNVAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535290555736] [client] Syncing 2 files...
+[1535290555743] [server] [I7FO005pXopSFyNVAAAA] Error: Same contents { file: 'test.txt' }
+[1535290555745] [client] [1/2] Failed: test.txt (Error: Same contents)
+[1535290555747] [client] [2/2] Failed: test/test.txt (Error: Same contents)
+[1535290555751] [server] [I7FO005pXopSFyNVAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535290555856] [client] Syncing 1 files...
+[1535290555862] [server] [I7FO005pXopSFyNVAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535290555863] [client] [1/1] Synced: test.txt
+[1535290827581] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290828307] [client] Syncing: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\client
+[1535290828311] [client] With ->: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server (on localhost:8081)
+[1535290828313] [server] [amnEC9IHNbVRBMTZAAAA] Syncing with: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server
+[1535290828452] [client] Syncing 2 files...
+[1535290828464] [server] [amnEC9IHNbVRBMTZAAAA] Error: Same contents { file: 'test.txt' }
+[amnEC9IHNbVRBMTZAAAA] Error: Same contents { file: 'test/test.txt' }
+[1535290828464] [client] [1/2] Failed: test.txt (Error: Same contents)
+[2/2] Failed: test/test.txt (Error: Same contents)
+[1535290828572] [client] Syncing 1 files...
+[1535290828595] [server] [amnEC9IHNbVRBMTZAAAA] Synced: C:\Users\x\Documents\programming\nodejs\libraries\my\socket-file-sync\test\test-dir\server\test.txt
+[1535290828598] [client] [1/1] Synced: test.txt
+[1535290829062] [server] Listening for connections on { address: '::', family: 'IPv6', port: 8081 }
+[1535290829732] [server] [VLGziLgGbBpVp3m0AAAA] Couldn't decrypt {clientConfig: 'e1c6…d02a(672)'} (Invalid secret or Invalid JSON). Unexpected token � in JSON at position 0
+[1535290829750] [client] Server error: Couldn't decrypt {clientConfig: 'e1c6…d02a(672)'} (Invalid secret or Invalid JSON). Unexpected token � in JSON at position 0

@@ -1,4 +1,6 @@
+const Path = require('path');
 const fs = require('fs-extra');
+const utils = require('../../utils');
 const { normalize } = require('path');
 const untildify = require('untildify');
 const Cryptr = require('cryptr')
@@ -6,48 +8,35 @@ const { getConfig, getProxyConfig } = require('../../config');
 
 module.exports = config => async socket => {
 
-  if (!config.secret)
-    throw new Error('Need a secret');
   const cryptr = new Cryptr(config.secret);
-  if (!socket.handshake.query.config)
+  const { query } = socket.handshake;
+  if (!query.config) {
     throw new Error('Invalid clientConfig');
-  let clientConfig = socket.handshake.query.config;
-  try {
-    clientConfig = cryptr.decrypt(clientConfig)
-  } catch (error) {
-    error.message = `Couldn't decrypt clientConfig (Invalid secret?). ` + error.message;
-    throw error;
-  }
-  try {
-    clientConfig = JSON.parse(clientConfig)
-  } catch (error) {
-    error.message = `Couldn't parse clientConfig. ` + error.message;
-    throw error;
   }
 
-  if (!clientConfig || !Object.keys(clientConfig).length)
+  const clientConfig = utils.tryCatch(() => JSON.parse(cryptr.decrypt(query.config)), `Couldn't decrypt {clientConfig: '${utils.trunc(query.config)}'} (Invalid secret or Invalid JSON)`);
+
+  if (!clientConfig || !Object.keys(clientConfig).length) {
     throw new Error('Invalid clientConfig');
-
-  if (!clientConfig.serverDir)
-    throw new Error(`Invalid \`config.serverDir\` provided: '${clientConfig.serverDir}'`);
-
-  try {
-    socket.serverDir = normalize(untildify(clientConfig.serverDir.replace(/[\/\\]/g, '/')))
-    await fs.access(socket.serverDir);
-  } catch (error) {
-    error.message = `Invalid \`config.serverDir\` provided: '${clientConfig.serverDir}'. ` + error.message;
-    throw error;
   }
 
-  try {
-    socket.serverDirConfig = config.getConfig(socket.serverDir);
-  } catch (error) {
-    error.message = `Couldn't read \`serverDir.config\`. ` + error.message;
-    throw error;
+  if (!clientConfig.remoteDir) {
+    throw new Error(`Invalid {remoteDir: ${clientConfig.remoteDir}}`);
   }
 
-  if (clientConfig.twoWay && !socket.serverDirConfig.twoWay)
-    throw new Error(`{clientConfig.twoWay: ${clientConfig.twoWay}} !== {serverDirConfig.twoWay: ${socket.serverDirConfig.twoWay}}`);
+  if (clientConfig.twoWay && !config.twoWay) {
+    throw new Error(`'twoWay' configured on client but not on server`);
+  }
 
-  socket.log('Syncing to:', socket.serverDir);
+  clientConfig._remoteDir = clientConfig.remoteDir;
+  clientConfig.remoteDir = untildify(clientConfig.remoteDir.replace(/[\/\\]/g, '/'));
+  if (!Path.isAbsolute(clientConfig.remoteDir)) {
+    throw new Error(`Invalid {remoteDir: '${clientConfig._remoteDir}'} (path must be /absolute, or relative to home ~/)`);
+  }
+  clientConfig.remoteDir = normalize(untildify(clientConfig.remoteDir.replace(/[\/\\]/g, '/')));
+
+  await utils.tryCatch(() => fs.access(clientConfig.remoteDir), `Invalid {remoteDir: '${clientConfig._remoteDir}'}`);
+
+  clientConfig.cryptr = cryptr;
+  socket.clientConfig = clientConfig;
 };

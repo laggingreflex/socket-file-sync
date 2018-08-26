@@ -1,31 +1,48 @@
-const server = require('../server');
-const client = require('../client');
-const { getConfig } = require('../config');
+const { assert } = require('chai');
+const utils = require('./utils');
 
-const config = getConfig(__dirname + '/test-dir');
-console.log(`config.secret:`, config.secret);
-// config.cwdConfig = config;
-// config.getCwdConfig = () => config;
-// config.server = 'http://localhost';
-// config.port = 8081;
-// config.serverDir = config.cwd = __dirname + '/test-dir';
-// config.secret = 'secret';
+describe('CLI', () => {
+  utils.sc(`everything works`, ({ server, client }) => async () => {
+    server.start `-s aaa`();
+    assert.include(await server.next(), `Listening for`);
+    client.start `-s aaa localhost ${server.testDir()}`();
+    assert.include(await client.next(), `Syncing: ${client.testDir()}`);
+    assert.include(await client.next(), `With ->: ${server.testDir()} (on localhost`);
+    assert.include(await server.next(), `Syncing with: ${server.testDir()}`);
+    assert.include(await client.next(), `Syncing 2 files...`);
+    assert.include(await client.next(), `Same contents`);
+    assert.include(await client.next(), `Same contents`);
+    assert.include(await server.next(), `Same contents`);
+    assert.include(await server.next(), `Same contents`);
 
-const serverConfig = config.getConfig(__dirname + '/test-dir/server');
-const clientConfig = config.getConfig(__dirname + '/test-dir/client');
-console.log(`clientConfig.secret:`, clientConfig.secret);
+    assert.equal(client.testDirRead('test.txt'), 'test');
+    client.testDirWrite('test.txt')('changed');
 
-server(serverConfig).catch(onError);
-client(clientConfig).catch(onError);
+    assert.include(await client.next(), `Syncing 1 files...`);
+    assert.include(await client.next(), `[1/1] Synced: test.txt`);
+    assert.include(await server.next(), `Synced: ${server.testDir('test.txt')}`);
 
-function onError(error) { console.error(error); }
+    assert.equal(server.testDirRead('test.txt'), 'changed');
+  });
 
-// server({
-//   ...config,
-//   cwd: __dirname + '/test-dir/server',
-// }).catch(console.error);
-// client({
-//   ...config,
-//   cwd: __dirname + '/test-dir/client',
-//   serverDir: __dirname + '/test-dir/server',
-// }).catch(console.error);
+  utils.sc(`client gets rejected when secret is wrong`, ({ server, client }) => async () => {
+    server.start `-s aaa`();
+    assert.include(await server.next(), `Listening for`);
+    client.start `-s bbb localhost ${server.testDir()}`();
+    assert.include(await client.next(), `Server error: Couldn\'t decrypt`);
+  });
+
+  utils.sc(`client gets rejected when path relative`, ({ server, client }) => async () => {
+    server.start `-s aaa`();
+    assert.include(await server.next(), `Listening for`);
+    client.start `-s aaa localhost some/relative/path`();
+    assert.include(await client.next(), `Server error: Invalid {remoteDir: 'some/relative/path'} (path must be /absolute, or relative to home ~/)`);
+  });
+
+  utils.sc(`client gets rejected when path doesn't exist`, ({ server, client }) => async () => {
+    server.start `-s aaa`();
+    assert.include(await server.next(), `Listening for`);
+    client.start `-s aaa localhost ${`/shouldn't/exist`}`();
+    assert.include(await client.next(), `Server error: Invalid {remoteDir: '/shouldn't/exist'}. ENOENT: no such file or directory, access`);
+  });
+});

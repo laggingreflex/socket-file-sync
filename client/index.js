@@ -1,17 +1,18 @@
+const Path = require('path');
+const fs = require('fs-extra');
 const io = require('socket.io-client');
 const { URL } = require('url');
-const Cryptr = require('cryptr')
+const Cryptr = require('cryptr');
+const asyncBreak = require('break-async-iterator');
+const watch = require('file-watch-iterator');
+const acknowledge = require('socket.io-acknowledge')
+const encrypt = require('socket.io-encrypt')
+const utils = require('../utils');
 
-module.exports = async config => {
-
-  if (!config.secret) throw new Error('Need a secret');
+module.exports = async function(config) {
   const cryptr = new Cryptr(config.secret);
 
-  if (!config.server) {
-    throw new Error('Need a server');
-  }
-
-  let rawUrl = config.server;
+  let rawUrl = config.server || config.ip;
   if (!rawUrl.match(/^http:/)) {
     rawUrl = 'http://' + rawUrl;
   }
@@ -33,38 +34,69 @@ module.exports = async config => {
     // rejectUnauthorized: false,
     query: {
       config: cryptr.encrypt(JSON.stringify({
-        serverDir: config.serverDir,
+        ...config,
+        remoteDir: config.remoteDir,
       })),
     }
   });
 
-  const on = (event, { error = null, success = null } = {}) => new Promise((resolve, reject) => socket.once(event, (data = '') => {
-    if (error !== null) {
-      console.error(...[error, data].filter(Boolean));
-      reject(new Error([error, data].filter(Boolean).join(' ')))
-    } else {
-      console.log(success, data);
-      resolve(data)
-    }
-  }));
+  encrypt(config.secret)(socket);
+  acknowledge(socket);
 
-  await Promise.race([
-    Promise.all([
-      on('connect', { success: `Connected to ${String(serverUrl)}` }),
-      on('ready', { success: `Ready` }),
-    ]),
-    on('connect_error', { error: `Error connecting to ${String(serverUrl)}.` }),
-    on('error', { error: '' }),
+  const onConnect = new Promise(_ => socket.once('connect', _));
+
+  const onError = Promise.race([
+    new Promise((_, x) => socket.once('error', error => x(new utils.Error(`Server error: ${error}`)))),
+    new Promise((_, x) => socket.once('connect_error', error => x(new utils.Error(`Failed to connect to '${String(serverUrl)}' (${error.message})`)))),
+  ]).catch(error => {
+    socket.close();
+    throw error;
+  });
+
+  await (Promise.race([onConnect, onError]));
+
+  // console.log(`Connected to:`, `${socket.io.opts.hostname}:${socket.io.opts.port}`);
+
+  const relative = f => Path.relative(config.cwd, f).replace('\\', '/');
+
+  console.log('Syncing:', config.cwd);
+  console.log(`With ->:`, config.remoteDir, `(on ${socket.io.opts.hostname}:${socket.io.opts.port})`);
+
+  let watcher;
+  const watcherDone = (async () => {
+    let firstTime = true;
+    watcher = watch(config.cwd);
+    for await (const _files of (watcher)) try {
+      if (firstTime && !(firstTime = false)) {
+        if (config.initialSync === false) {
+          continue;
+        }
+      }
+      const files = _files.toArray().filter(f => f.changed && ['add', 'change', 'unlink'].includes(f.event) && relative(f.file));
+      console.log(`Syncing ${files.length} files...`);
+      await Promise.all(files.map(async ({ event, changed, file }, i, { length }) => {
+        file = relative(file);
+        const label = `[${i+1}/${length}]`;
+        try {
+          if (!changed) return;
+          const data = await fs.readFile(file, 'utf8').catch(() => {});
+          await socket.emit('file', { file, event, data });
+          console.log(label, `Synced:`, file);
+        } catch (error) { console.error(label, `Failed:`, file, `(${error})`); }
+      }));
+    } catch (error) { console.error(`Failed:`, error.message); }
+  })();
+
+  const cleanup = () => {
+    try { socket.close(); } catch (warn) { console.warn(warn); }
+    try { watcher.return(); } catch (warn) { console.warn(warn); }
+  }
+
+  const socketDone = Promise.race([
+    new Promise(_ => socket.on('close', _)),
   ]);
 
-  socket.on('error', () => console.error('?????????'))
+  const done = Promise.race([watcherDone, socketDone]).finally(cleanup);
 
-
-  // socket.on('connect', console.error)
-  // socket.on('connect_error', console.er    ror)
-  // const socket = io('https://127.0.0.1:8081/');
-  // console.log(`socket:`, socket);
-  // socket.on('connecting', () => {
-  //   console.log('connecting');
-  // })
+  return { socket, cleanup, done }
 };
