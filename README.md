@@ -1,12 +1,10 @@
 # socket-file-sync
 
-Watch and sync files from client to server using NodeJS Socket.io and Streams.
+Watch and sync files from client to server using NodeJS Socket.io.
 
 Simple to configure - doesn't use SSH, just a secret text.
 
 A single server can be connected to from multiple clients.
-
-**WARNING** Alpha software. Reviews/PRs/feedback highly welcome.
 
 ## Install
 
@@ -68,5 +66,5 @@ Config is stored in two places:
 * On Client:
 
   ```sh
-  sfs client --server my-linode.com --server-dir /home/me/project
+  sfs client --server my-linode.com --server-dir ~/project
   ```

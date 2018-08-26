@@ -14,7 +14,7 @@ exports.builder = {
   },
 }
 exports.handler = async argv => {
-  const { done, cleanup } = await require('../../server')(argv);
+  const { done, cleanup } = await require('../../lib/server')(argv);
   const off = utils.onMessage({
     STOP: () => {
       cleanup();

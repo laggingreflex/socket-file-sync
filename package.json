@@ -2,7 +2,7 @@
   "name": "socket-file-sync",
   "version": "0.6.0",
   "description": "Sync files to server using socket.io",
-  "main": "index.js",
+  "main": "lib",
   "bin": {
     "socket-file-sync": "bin/index.js",
     "sfs": "bin/index.js"
@@ -16,32 +16,23 @@
     "chokidar": "^2.0.4",
     "cryptr": "^4.0.0",
     "debounce-queue": "^0.3.0",
-    "enquire-simple": "^0.2.0",
     "file-watch-iterator": "^0.6.0",
     "fs-extra": "^7.0.0",
-    "killable": "^1.0.0",
-    "lodash": "^4.17.10",
-    "merge-options": "^1.0.1",
     "minimatch": "^3.0.4",
     "parse-gitignore": "^1.0.1",
     "shortid": "^2.2.13",
-    "simple-socket-stream": "^0.2.0",
     "socket.io": "^2.1.1",
     "socket.io-acknowledge": "^0.3.0",
     "socket.io-client": "^2.1.1",
     "socket.io-encrypt": "^0.1.0",
-    "stream-equal": "^1.1.1",
     "streams-to-async-iterator": "^0.4.0",
     "untildify": "^3.0.3",
-    "why-is-node-running": "^2.0.2",
     "yargs": "^12.0.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "directory-snapshot": "0.0.5",
     "fs-restore": "^0.1.0",
-    "literal-toast": "^1.0.0",
     "merge-async-iterators": "^0.2.1",
-    "mochista": "^0.15.0"
+    "mochista": "^0.17.3"
   }
 }

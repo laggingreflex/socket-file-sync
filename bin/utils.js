@@ -1,6 +1,6 @@
 const utils = exports;
 
-Object.assign(utils, require('../utils'))
+Object.assign(utils, require('../lib/utils'))
 
 utils.handler = (handler, { onMessage }) => async argv => {
   try {

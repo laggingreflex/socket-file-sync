@@ -1,5 +1,4 @@
 const utils = require('../utils');
-const asyncBreak = require('break-async-iterator');
 exports.command = 'client [server] [remoteDir]';
 exports.aliases = ['c'];
 exports.describe = 'Run this on your client, in each dir you want to sync to the server';
@@ -22,7 +21,7 @@ exports.builder = {
   },
 }
 exports.handler = async argv => {
-  const { socket, cleanup, done } = await require('../../client')(argv);
+  const { socket, cleanup, done } = await require('../../lib/client')(argv);
 
   const off = utils.onMessage({
     STOP: () => {
