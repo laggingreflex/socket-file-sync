@@ -1,6 +1,6 @@
 {
   "name": "socket-file-sync",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Sync files to server using socket.io",
   "main": "lib",
   "bin": {
