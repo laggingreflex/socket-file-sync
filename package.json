@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "cp-async-stream": "^0.1.0",
     "fs-restore": "^0.1.0",
     "merge-async-iterators": "^0.2.1",
     "mochista": "^0.17.3"

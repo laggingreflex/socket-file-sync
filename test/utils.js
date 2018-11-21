@@ -1,10 +1,9 @@
 const Path = require('path');
 const fs = require('fs');
 const { fork } = require('child_process');
-const asyncStream = require('streams-to-async-iterator');
-const merge = require('merge-async-iterators');
 const asyncBreak = require('break-async-iterator');
 const snapshot = require('fs-restore');
+const cpStream = require('cp-async-stream');
 
 const utils = exports;
 
@@ -14,25 +13,20 @@ utils.bin = (args, opts) => fork(__dirname + '/../bin', args, {
   ...opts,
 });
 
-utils.asyncBin = (...args) => asyncBreak(breakable => async function*(args, opts) {
+utils.asyncBin = async function*(args, opts) {
   const cp = utils.bin(args, opts);
   try {
-    const outputStreams = merge([cp.stdout, cp.stderr].map(_ => asyncStream(_.setEncoding('utf8'))));
-    for await (const output of (outputStreams)) {
-      // console.log('output :', output);
-      // process.stdout.write('output : '+ output);
-      for (const line of output.split(/[\n\r]+/g).map(_ => _.trim()).filter(Boolean)) {
-        console.log(`[${args[0]}]`, line);
-        if (line.includes('Debugger listening')) { continue; }
-        if (line.includes('nodejs.org/en/docs/inspector')) { continue; }
-        yield line;
-      }
+    for await (const { stdout, stderr } of cpStream(cp)) {
+      const line = stdout || stderr;
+      if (line.includes('Debugger listening')) { continue; }
+      if (line.includes('nodejs.org/en/docs/inspector')) { continue; }
+      yield line;
     }
   } finally {
     cp.send('STOP');
     // cp.kill();
   }
-})(...args);
+};
 
 utils.sc = (label, cb, misc = {}) => {
   const _ = ['server', 'client'].reduce((__, sc) => {
