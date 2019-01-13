@@ -9,7 +9,7 @@ const argv = yargs
   .options(require('./options'))
   .wrap(null)
   .version(false)
-  .fail(utils.fail)
+  // .fail(utils.fail)
   .argv;
 
 if (argv.h || argv['/?'] || !argv._.length || argv._[0].match(/^(h|help)$/)) {

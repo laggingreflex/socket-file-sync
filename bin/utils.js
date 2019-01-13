@@ -37,14 +37,9 @@ utils.onMessage = handler => {
 }
 
 utils.fail = (msg, error, yargs) => {
-  if (msg) {
-    console.error(msg);
-  }
-  if (error) {
-    if (error instanceof utils.Error) {
-      console.error(error.message);
-    } else {
-      console.error(error);
-    }
+  if (error instanceof utils.Error) {
+    console.error(error.message);
+  } else {
+    throw error
   }
 };
